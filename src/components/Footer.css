@@ -6,17 +6,24 @@
 }
 
 footer {
-    position: relative;
+    /* position: relative;
     width: 100%;
     height: auto;
     padding: 40px 0px;
-    /* background: black; */
+    background: black;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     margin: 0 auto;
     align-items: center;
-    flex-grow: 1;
+    flex-grow: 1; */
+    position:absolute;
+    bottom:0;
+    background: #0f2147;
+    display:block;  
+    width:100%;
+    height: 80px;
+    padding: 30px 0px;
     
 }
 
