@@ -3,7 +3,8 @@ import { Wrapper, LeftNavItem, RightNavItem, RightNav, Content } from "./Navbar.
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { useState } from "react";
 // import { Dropdown, DropdownButton } from "react-bootstrap";
-import NetcompanyLogo from "../../logo.png";
+// import NetcompanyLogo from "../../logo.png";
+import NetcompanyLogo from "../../net.jpg";
 import { Avatar, Menu, Dropdown, Button, Space, Descriptions } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useNavigate } from 'react-router-dom';
@@ -77,9 +78,14 @@ const Navbar = ({ information }) => {
     return (
         <Wrapper>
             <Content>
-                <LeftNavItem content="NETCOMPANY" to="/home">
+                <LeftNavItem content="Netcompany" to="/home">
                     <Link to="/home">
-                        <img src={NetcompanyLogo}></img>
+                        <img src={NetcompanyLogo}
+                        style={{
+                            width: 90,
+                            height: 60,
+                            borderRadius: '40%',
+                          }}></img>
                     </Link>
                 </LeftNavItem>
 
