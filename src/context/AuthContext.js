@@ -22,19 +22,6 @@ export const AuthContextProvider = ({ children }) => {
        return signInWithEmailAndPassword(auth, email, password)
      }
 
-     // const docRef = doc(db, "users", email);
-     // console.log(docRef)
-     // const docSnap = await getDoc(docRef);
-     // console.log(docSnap)
-     //
-     // if(!docSnap.exists()){
-     //   return signInWithEmailAndPassword(auth, email, "wrongpass")
-     // }
-     // const isAdmin = JSON.parse(docSnap.data())["isAdmin"]
-     // if(isAdmin !== false){
-     //   return signInWithEmailAndPassword(auth, email, "wrongpass")
-     // }
-
      const response = await fetch(api, {
        method: 'POST',
        headers: {'Content-Type': 'application/json'},
@@ -49,12 +36,31 @@ export const AuthContextProvider = ({ children }) => {
      email += "@gmail.com"
 
      if(response.status === 500 || response.status === 200){
-       return signInWithEmailAndPassword(auth, email, "123456")
+       await signInWithEmailAndPassword(auth, email, "123456")
      }else{
-       return signInWithEmailAndPassword(auth, email, "wrongpass")
+       await signInWithEmailAndPassword(auth, email, "wrongpass")
      }
 
-     // return signInWithEmailAndPassword(auth, email, "123456")
+
+
+     const docRef = doc(db, "users", email.substring(0, email.length - 10));
+     console.log(docRef)
+     const docSnap = await getDoc(docRef);
+     console.log(docSnap)
+
+     if(!docSnap.exists()){
+       await signOut(auth)
+       return signInWithEmailAndPassword(auth, email, "wrongpass")
+     }
+     const isAdmin = docSnap.get("isAdmin")
+     console.log(isAdmin)
+     if(isAdmin === false){
+       await signOut(auth)
+       return signInWithEmailAndPassword(auth, email, "wrongpass")
+     }
+     await signOut(auth)
+
+     return signInWithEmailAndPassword(auth, email, "123456")
 
    }
 
