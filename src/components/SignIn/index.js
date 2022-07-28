@@ -17,7 +17,7 @@ export const SignIn = () => {
       setError('')
       try {
         await signIn(email, password)
-        navigate('/account')
+        navigate('/menu')
       } catch (e) {
         setError(e.message)
         console.log(e.message)
@@ -30,10 +30,10 @@ export const SignIn = () => {
         <div  className='max-w-[700px] mx-auto my-16 p-4 container1'>
             <div class="section-title text-center">
               <h1>Login</h1>
-            </div>          <form onSubmit={handleSubmit}>
+            </div><form onSubmit={handleSubmit}>
             <div className='flex flex-col py-2'>
               <label className='py-2 font-medium'>Username</label>
-              <input onChange={(e) => setEmail(e.target.value)} className='border p-3' type='email' />
+              <input onChange={(e) => setEmail(e.target.value)} className='border p-3' type='text' />
             </div>
             <div className='flex flex-col py-2'>
               <label className='py-2 font-medium'>Password</label>

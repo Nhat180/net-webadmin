@@ -1,12 +1,13 @@
 import React from 'react';
 import { useState } from "react";
 import { SignIn } from "./components/SignIn";
-import Account from './components/Account';
 import { AuthContextProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import FooterComponent from "./components/FooterComponent";
 import {  Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar1";
+import Menu from './components/Menu/index';
+import Management from "./components/Management";
 
 
 
@@ -21,25 +22,15 @@ function App() {
   return (
     <AuthContextProvider>
       <Navbar information={information} />
-      
-
-
-      <div>
+      <div style={{ minHeight: "69vh" }}>
         <Routes>
-            <Route path='/' element={<SignIn/>} />
-            <Route
-              path='/account'
-              element={
-                <ProtectedRoute>
-                  <Account />
-                </ProtectedRoute>
-              }
-            />
+            {/* <Route path='/' element={<SignIn/>} /> */}
+            <Route path='/' element={<Menu />}/>
+            {/* <Route path="/" element={<Management></Management>} /> */}
         </Routes>
         </div>
 
-        <FooterComponent />
-        </AuthContextProvider>
+          </AuthContextProvider>
 
       
   );

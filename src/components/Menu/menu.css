@@ -1,56 +1,61 @@
 .App {
     text-align: center;
     width: 100%;
-    display: flex;
     align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    justify-content: center; 
+    
+  }
+  h1 {
+    text-align: center;
+    font-size: 35px;
+    font-weight: 600;
+    margin-bottom: 1%;
+  }
+  table {
+    border: 1px solid black;
+    width: 90%;
+    height: 600px;
+    margin: 0 auto;
+    background-color: #f1f1f1;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+
   }
 
-/* Float four columns side by side */
-.categoryColumn {
-    float: left;
-    width: 20%;
-    padding: 0 0.5%;
+  table th {
+    border-bottom: 0.5px solid black;
+    border: 1px solid black;
+    height: 80px;
   }
-  
-  /* Remove extra left and right margins, due to padding in columns */
-  .row {
-    margin: 0 -5px;
-    width: 100%;
+ 
+  tbody{
+    vertical-align: middle;
+  } 
+
+  tbody th{
+    height: 360px;
+    vertical-align: inherit;
   }
-  
-  .flex-gap {
-    display: inline-flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    align-items: center;
-  }
-  
-  /* Clear floats after the columns */
-  .row:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-  
-  /* Style the counter cards */
-  .card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
-    padding: 5%;
-    text-align: center;
-    background-color: #f1f1f1;
+
+  tbody th tr {
+    height: 90px;
+    border-bottom: 0.5px outset black;
+    vertical-align: middle;
+    text-align: -internal-center;
   }
   
   .normalBtn {
-    padding: 5px 20px;
-    background: black;
-    color: white;
-    text-transform: uppercase;
+    background: burlywood;
+    color: black;
+    /* text-transform: uppercase; */
     border-radius: 7px;
     border: none;
-  }
-.name {
-    color: black;
+    margin-top: 20px;
+    float: right;
+    margin-right: 5%;
+    padding: 15px 50px 15px;
     font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
   }
+
+  

@@ -30,6 +30,7 @@ export const AuthContextProvider = ({ children }) => {
          "password": password
        })
      })
+     console.log(email + "     " + password)
      console.log(response)
 
 
