@@ -138,7 +138,7 @@ export default function Menu() {
                                 <tr>{menu.data.main[0]}</tr>
                                 <tr>{menu.data.side}</tr>
                                 <tr>{menu.data.soup}</tr>
-                                <tr>{menu.data.dessert}</tr>
+                                <tr>{menu.data.dessert[0]}</tr>
                             </th>           
                             ))
                     })}

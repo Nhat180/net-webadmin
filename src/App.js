@@ -7,7 +7,7 @@ import FooterComponent from "./components/FooterComponent";
 import {  Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar1";
 import Menu from './components/Menu/index';
-import Management from "./components/Management";
+// import Management from "./components/Management";
 
 
 
