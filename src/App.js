@@ -7,7 +7,7 @@ import FooterComponent from "./components/FooterComponent";
 import {  Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar1";
 import Menu from './components/Menu/index';
-// import Management from "./components/Management";
+import Management from "./components/Management";
 
 
 
@@ -24,8 +24,8 @@ function App() {
       <Navbar information={information} />
       <div style={{ minHeight: "69vh" }}>
         <Routes>
-            {/* <Route path='/' element={<SignIn/>} /> */}
-            <Route path='/' element={<Menu />}/>
+            <Route path='/' element={<SignIn/>} />
+            <Route path='/menu' element={<Menu />}/>
             {/* <Route path="/" element={<Management></Management>} /> */}
         </Routes>
         </div>
