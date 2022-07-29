@@ -6,7 +6,8 @@ import {
 } from 'firebase/auth';
 import { auth } from '../firebase';
 import { db } from '../firebase';
-import {getDoc, doc} from 'firebase/firestore'
+import {getDoc, doc, setDoc} from 'firebase/firestore'
+import { async } from '@firebase/util';
 // import * as Uri from "postcss";
 // import * as http from "http";
 
@@ -62,11 +63,48 @@ export const AuthContextProvider = ({ children }) => {
      await signOut(auth)
 
      return signInWithEmailAndPassword(auth, email, "123456")
-
    }
 
   const logout = () => {
       return signOut(auth)
+  }
+
+  const promote = async(email) =>{
+        if (email.toString() === "admin"){
+            return -1
+        }
+        const docRef = doc(db, "users", email);
+        const docSnap = await getDoc(docRef);
+
+        if(!docSnap.exists()){
+            return -2
+        }
+        const isAdmin = docSnap.get("isAdmin")
+        if (isAdmin === true){
+            return -3
+        }
+
+        await setDoc(docRef, {isAdmin: true, username: email})
+        return 1
+  }
+  
+  const demote = async(email) =>{
+    if (email.toString() === "admin"){
+        return -1
+    }
+    const docRef = doc(db, "users", email);
+    const docSnap = await getDoc(docRef);
+
+    if(!docSnap.exists()){
+        return -2
+    }
+    const isAdmin = docSnap.get("isAdmin")
+    if (isAdmin !== true){
+        return -3
+    }
+
+    await setDoc(docRef, {isAdmin: false, username: email})
+    return 1
   }
 
   useEffect(() => {
