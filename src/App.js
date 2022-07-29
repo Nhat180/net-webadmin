@@ -24,9 +24,9 @@ function App() {
       <Navbar information={information} />
       <div style={{ minHeight: "69vh" }}>
         <Routes>
-            <Route path='/' element={<SignIn/>} />
-            <Route path='/menu' element={<Menu />}/>
-            {/* <Route path="/" element={<Management></Management>} /> */}
+            {/* <Route path='/' element={<SignIn/>} /> */}
+            {/* <Route path='/menu' element={<Menu />}/> */}
+            <Route path="/" element={<Management></Management>} />
         </Routes>
         </div>
 

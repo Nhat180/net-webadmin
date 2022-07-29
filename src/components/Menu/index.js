@@ -46,25 +46,26 @@ export default function Menu() {
                   
     // }
 
-    // const updateMenu = async () => {
-    //     const response = await fetch(api, {
-    //         method: 'POST',
-    //         headers: {'Content-Type': 'application/json'},
-    //         body: JSON.stringify({
-    //             "username": email,
-    //             "password": password
-    //           })
-    //     })
+    const updateMenu = async () => {
+        const response = await fetch(api, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "username": 'pct',
+                "password": 'Nhatrangg@2022'
+              })
+        })
     
-    //     if( response.status === 500 || response.status === 200){
-    //         await fetchMenu()
-    //       } else {
-    //         console.log('Disconnection')
-    //       }
-    // }
+        if( response.status === 500 || response.status === 200){
+            console.log('success')
+          } else {
+            console.log('Disconnection')
+          }
+    }
     
     return (
         <>  
+            
             <SubNav content="Menu"></SubNav>
             <h1>LUNCH MENU</h1>
             <div className="App">
@@ -85,7 +86,6 @@ export default function Menu() {
                         <tr>Side</tr>
                         <tr>Soup</tr>
                         <tr>Dessert</tr>
-
                     </th>
                     {menu.map((menu) => {
                         return ( 
@@ -146,9 +146,9 @@ export default function Menu() {
                 </tbody>
             </table>
             </div>
-            {/* <button className="normalBtn" onClick={updateMenu} >
+            <button className="normalBtn" onClick={updateMenu} >
                 Update
-            </button> */}
+            </button>
         </>
     );
 }
