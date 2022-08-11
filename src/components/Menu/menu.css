@@ -1,20 +1,40 @@
-.App {
+  .App {
     text-align: center;
     width: 100%;
     align-items: center;
     justify-content: center; 
     
   }
+
+  .sub-nav {
+    background-color: #f7f7f7;
+    padding: 15px;
+  }
+
+  .sub-nav h2{
+    font-weight: 800;
+    margin-left: 2%;
+  }
+
+  .updateTime {
+    font-size: 15px;
+    font-weight: 500;
+    margin-left: 84%;
+    margin-bottom: 10px;
+
+  }
+
   h1 {
     text-align: center;
     font-size: 35px;
     font-weight: 600;
     margin-bottom: 1%;
   }
-  table {
+
+  .menu-table {
     border: 1px solid black;
-    width: 90%;
-    height: 600px;
+    width: 95%;
+    height: 50px;
     margin: 0 auto;
     background-color: #f1f1f1;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
@@ -24,7 +44,7 @@
   table th {
     border-bottom: 0.5px solid black;
     border: 1px solid black;
-    height: 80px;
+    height: 30px;
   }
  
   tbody{
@@ -36,8 +56,8 @@
     vertical-align: inherit;
   }
 
-  tbody th tr {
-    height: 90px;
+  tbody tr th {
+    height: 200px;
     border-bottom: 0.5px outset black;
     vertical-align: middle;
     text-align: -internal-center;
@@ -51,7 +71,7 @@
     border: none;
     margin-top: 20px;
     float: right;
-    margin-right: 5%;
+    margin-right: 2.5%;
     padding: 15px 50px 15px;
     font-size: 18px;
     font-family: Arial, Helvetica, sans-serif;
