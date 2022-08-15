@@ -10,6 +10,7 @@ import User from './components/User/index';
 import Report from './components/Report/index';
 import Suggestion from './components/Suggestion/index';
 import Survey from './components/Survey/index';
+import CreateSurvey from './components/SurveyCreate';
 
 
 
@@ -31,6 +32,7 @@ function App() {
         <Routes>
             {/* <Route path='/' element={<SignIn/>} /> */}
             <Route path='/menu' element={<Menu />}/>
+            <Route path='/surveyCreate' element={<CreateSurvey />}/>
             <Route path='/user' element={<User />}/>
             <Route path='/!' element={<Report />}/>
             <Route path='/report' element={<Report />}/>
