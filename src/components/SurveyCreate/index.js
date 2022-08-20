@@ -27,6 +27,7 @@ export default function SurveyCreate() {
         [{
             questionText: "",
             questionType: "radio",
+            status: true,
             options : [
                 {optionText: ""},
             ],
@@ -132,6 +133,7 @@ export default function SurveyCreate() {
             title: surveyName,
             close: Timestamp.fromMillis(Date.parse(surveyDeadline)),
             created: Timestamp.fromDate(new Date()),
+            status: true,
             createdBy: user + "",
             usersHaveTaken: []
         }
