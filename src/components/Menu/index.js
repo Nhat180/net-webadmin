@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SubNav from "../SubNav";
-import "./Menu.css";
+import "./menu.css";
 import { Nav, Spinner } from "react-bootstrap";
 import{ db } from "../../firebase";
 import { doc, getDoc, collection, connectFirestoreEmulator} from "firebase/firestore";
