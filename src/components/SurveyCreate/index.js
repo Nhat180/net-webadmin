@@ -25,13 +25,10 @@ import { async } from '@firebase/util';
 export default function SurveyCreate() {
     const [questions, setQuestions] = useState(
         [{
-            questionText: "What is 1+1?",
+            questionText: "",
             questionType: "radio",
             options : [
-                {optionText: "3"},
-                {optionText: "2"},
-                {optionText: "1"},
-                {optionText: "0"}
+                {optionText: ""},
             ],
             open: true
         }]
