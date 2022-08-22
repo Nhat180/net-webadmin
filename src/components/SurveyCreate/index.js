@@ -80,7 +80,7 @@ export default function SurveyCreate() {
     function addOption(i){
         var optionQuestion = [...questions];
         if(optionQuestion[i].options.length < 5){
-            optionQuestion[i].options.push({optionText: "" + (optionQuestion[i].options.length + 1)});
+            optionQuestion[i].options.push({optionText: ""});
             setQuestions(optionQuestion);
         }
     }
@@ -141,6 +141,11 @@ export default function SurveyCreate() {
         
         // const docRef = doc(db, "surveys", surveyID);
         // setDoc(docRef, docData);
+
+        for(let i=0; i < questions.length; i++){
+            questions[i].questionText = (i + 1) + ". " + questions[i].questionText;
+        }
+
         for(let i = 0; i < questions.length; i ++){
             var quesType = "SINGLECHOICE"
             for (let j = 0; j < type.length; j++){
