@@ -10,6 +10,7 @@ export default function User() {
 
     const userCollection = collection(db, 'users')
     const [user, setUser] = useState([]);
+    const [signal, setSignal] = useState (false);
     const [email, setEmail] = useState('');
 
 
@@ -23,53 +24,35 @@ export default function User() {
     }, []);
 
     async function promote(email) {
-        if (email.toString() === "admin"){
-            return -1
-        }
         const docRef = doc(db, "users", email);
         const docSnap = await getDoc(docRef);
-
-        if(!docSnap.exists()){
-            return -2
-        }
-        const isAdmin = docSnap.get("isAdmin")
-        if (isAdmin === true){
-            return -3
-        }
+        const isAdmin = docSnap.get("isAdmin");
 
         await setDoc(docRef, {isAdmin: true, username: email})
-        return 1        
+        return (alert("User " + email + " promoted successfully"))        
     }
     
     async function demote(email) {
-        if (email.toString() === "admin"){
-            return -1
-        }
         const docRef = doc(db, "users", email);
         const docSnap = await getDoc(docRef);
+        const isAdmin = docSnap.get("isAdmin");
 
-        if(!docSnap.exists()){
-            return -2
-        }
-        const isAdmin = docSnap.get("isAdmin")
-        if (isAdmin !== true){
-            return -3
-        }
-
-        await setDoc(docRef, {isAdmin: true, username: email})
-        return 1        
+        await setDoc(docRef, {isAdmin: false, username: email})
+        return (alert("User " + email + " demoted successfully"))    
     }
 
-    const [unit, setUnit] = useState("Promote");
-    const toggleDisplay = () => {
-        if (unit === "Promote") {
-            setUnit("Demote");
-            console.log(unit);
-        } else {
-            setUnit("Promote");
-            console.log(unit);
+    function btnDisplay(email, state){
+        if(state == true){
+            return(
+                <button onClick={()=>demote(email)}> Demote </button>
+            )
+        } else{
+            return(
+                <button onClickCapture={()=>promote(email)}> Promote</button>
+            )
         }
-    };
+    }
+
 
     return (
         <>
@@ -95,9 +78,7 @@ export default function User() {
                                 <th scope="row">{index +1}</th>
                                 <td>{id.data.username}</td>
                                 <td>{id.data.isAdmin ? 'Admin' :'User' }</td>  
-                                {/* <button className="temp" onClick={toggleDisplay}>
-                                    {unit}
-                                </button>     */}
+                                <td>{btnDisplay(id.data.username, id.data.isAdmin)}</td> 
                             </tr>
                         )
                     })}
