@@ -8,10 +8,8 @@ import "../../Sidebar.css"
 
 export default function User() {
 
-    const userCollection = collection(db, 'users')
+    const userCollection = collection(db, 'users');
     const [user, setUser] = useState([]);
-    const [signal, setSignal] = useState (false);
-    const [email, setEmail] = useState('');
 
 
     useEffect(() => {
