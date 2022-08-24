@@ -10,86 +10,22 @@ import { UserOutlined } from "@ant-design/icons";
 import { useNavigate } from 'react-router-dom';
 import { UserAuth } from '../../context/AuthContext';
 
-const Navbar = ({ information }) => {
-    let item;
-    let image;
-    if (
-        information.role === "admin" ||
-        information.role === "user"
-    ) {
-        image = <Avatar size={34} icon={<UserOutlined />} />;
-    } else {
-        image = "";
-    }
-
-    const { user, logout } = UserAuth();
-    const navigate = useNavigate();
-
-    const handleLogout = async () => {
-        try {
-        await logout();
-        navigate('/');
-        console.log('Logged out')
-        } catch (e) {
-        console.log(e.message);
-        }
-    };
-
+const Navbar = () => {
     
-
-    if (information.role === "user") {
-        item = (
-            <>
-                <Link to="/menu">
-                    <RightNavItem>Menu</RightNavItem>
-                </Link>
-                <RightNavItem>
-                    <div onClick={handleLogout}>Sign Out</div>
-                </RightNavItem>
-            </>
-        );
-   
-    } else if (information.role === "admin") {
-        item = (
-            <>
-                <Link to="/menu">
-                    <RightNavItem>Menu</RightNavItem>
-                </Link>
-                <Link to="/management">
-                    <RightNavItem>Management</RightNavItem>
-                </Link>
-                <Link to="/survey">
-                    <RightNavItem>Survey</RightNavItem>
-                </Link>
-                <RightNavItem>
-                    <div onClick={handleLogout}>Sign Out</div>
-                </RightNavItem>
-            </>
-        );
-    } else {
-        item = (
-            <>
-                <Link to="/signin">
-                </Link>
-            </>
-        );
-    }
-
     return (
         <Wrapper>
             <Content>
-                <LeftNavItem content="Netcompany" to="/home">
-                    <Link to="/home">
+                <LeftNavItem content="Netcompany" to="/">
+                    
                         <img src={NetcompanyLogo}
                         style={{
                             width: 90,
                             height: 60,
                             borderRadius: '40%',
-                          }}></img>
-                    </Link>
+                          }}>
+                        </img>
                 </LeftNavItem>
 
-                <RightNav>{item}</RightNav>
             </Content>
         </Wrapper>
     );

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState } from "react";
 import { SignIn } from "./components/SignIn";
 import { AuthContextProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -10,28 +9,22 @@ import User from './components/User/index';
 import Report from './components/Report/index';
 import Suggestion from './components/Suggestion/index';
 import Survey from './components/Survey/index';
+import ViewDetail from './components/ViewDetail/index';
 import CreateSurvey from './components/SurveyCreate';
-
-
-
-
-
+import SuggestionDetail from './components/SuggestionDetail/index';
 
 function App() {
-
-  const [information, setInformation] = useState(
-    JSON.parse(localStorage.getItem("information"))
-        ? JSON.parse(localStorage.getItem("information"))
-        : ""
-  );
 
   return (
     <AuthContextProvider>
       {/* <Navbar information={information} /> */}
       <div style={{ minHeight: "69vh" }}>
         <Routes>
-            {/* <Route path='/' element={<SignIn/>} /> */}
+            <Route path='/suggest/:id' element={<SuggestionDetail/>}/>
+            <Route path='/view/:id' element={<ViewDetail/>}/>
+            {/* <Route path='/' element={<Menu />}/> */}
             <Route path='/menu' element={<Menu />}/>
+            <Route path='/user' element={<User />}/>
             <Route path='/surveyCreate' element={<CreateSurvey />}/>
             <Route path='/user' element={<User />}/>
             <Route path='/!' element={<Report />}/>
@@ -42,12 +35,11 @@ function App() {
             <Route path='/survey' element={<Survey />}/>
             <Route path='/' element={<SignIn />}/>
 
-              {/* <Route path="/" element={<Management></Management>} /> */}
         </Routes>
 
       </div>
 
-          </AuthContextProvider>
+      </AuthContextProvider>
 
       
   );

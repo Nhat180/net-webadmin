@@ -9,7 +9,7 @@ const SubNav = ({ content }) => {
                     <h3>{content}</h3>
                     <div>
                         <div>
-                            <Link to="/">Home</Link>
+                            <Link to="/">Dashboard</Link>
                         </div>
                         <span>{content}</span>
                     </div>

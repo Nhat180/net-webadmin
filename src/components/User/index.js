@@ -4,7 +4,7 @@ import{ db } from "../../firebase";
 import { doc, getDoc, collection, setDoc} from "firebase/firestore";
 import Sidebar from '../Sidebar.jsx'
 import { onSnapshot } from "firebase/firestore";
-import "../../Sidebar.css"
+import SubNav from '../SubNav'
 
 export default function User() {
 
@@ -55,11 +55,10 @@ export default function User() {
     return (
         <>
         <Sidebar>
-        <div class="sub-nav">
-            <h2>User</h2>
-        </div>
+        <div>
+        <SubNav content = {"User"} />
         <h1>User Management</h1>  
-        <div className="App">
+        <div className="table-app">
             <table className="styled-table">
                 <thead>
                     <tr>
@@ -77,12 +76,17 @@ export default function User() {
                                 <td>{id.data.username}</td>
                                 <td>{id.data.isAdmin ? 'Admin' :'User' }</td>  
                                 <td>{btnDisplay(id.data.username, id.data.isAdmin)}</td> 
+                                {/* <button className="temp" onClick={toggleDisplay}>
+                                    {unit}
+                                </button>     */}
                             </tr>
                         )
                     })}
                 </tbody>
             </table>
         </div>
+        </div>
+        
         </Sidebar>
         </> 
     );

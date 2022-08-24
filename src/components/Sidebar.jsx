@@ -7,12 +7,14 @@ import {
 import {FcSurvey} from "react-icons/fc"
 import { TbMessageReport, TbLogout} from "react-icons/tb"
 import { BiUserCircle} from "react-icons/bi"
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import NetcompanyLogo from "../net.jpg";
 import { UserAuth } from '../context/AuthContext';
 
 
 const Sidebar = ({children}) => {
+
+    const navigate = useNavigate();
     const[isOpen ,setIsOpen] = useState(false);
     const toggle = () => setIsOpen (!isOpen);
     const {logout} = UserAuth();
@@ -44,7 +46,11 @@ const Sidebar = ({children}) => {
         },    
     ]
 
-
+    const signOut = async (e) => {
+        e.preventDefault();
+        await logout()
+        navigate('/')  
+      };
 
     return (
         <div className="sidebar-container">
@@ -71,10 +77,10 @@ const Sidebar = ({children}) => {
                        </NavLink>
                    ))
                }
-               <div className="link"  onClick={logout}>
+               <button className="link"  onClick={signOut}>
                     <div className="icon"><TbLogout /></div>
                     <div style={{display: isOpen ? "block" : "none"}} className="link_text">Log out</div>
-               </div>
+               </button>    
            </div>
            <main>{children}</main>
         </div>

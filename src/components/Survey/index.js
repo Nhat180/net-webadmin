@@ -1,34 +1,63 @@
+ 
 import React, { useState, useEffect } from "react";
 import "./survey.css";
 import{ db } from "../../firebase";
-import { doc, getDoc, collection, setDoc} from "firebase/firestore";
+import { doc, getDocs, collection,  query, where, orderBy} from "firebase/firestore";
 import Sidebar from '../Sidebar.jsx'
 import { onSnapshot } from "firebase/firestore";
 import "../../Sidebar.css"
-import axios from 'axios';
+import SubNav from '../SubNav'
 import Pagination from '../Pagination'
+import { Link, useNavigate } from "react-router-dom";
+import { async } from "@firebase/util";
 
-export default function User() {
+
+export default function Survey() {
 
     const surveyCollection = collection(db, 'surveys')
-    const [survey, setSurvey] = useState([]);
+    const [report, setReport] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemPerPage] = useState(10);
+    const [itemPerPage] = useState(7);
+    const [sort, setSort] = useState(false);
+    const sortedStatus = query(collection(db,'surveys'), where('status','==', 'process'))
+    const orderByStatus = query(collection(db,'surveys'), orderBy('status', 'desc'))
+    const [search, setSearch] = useState("");
+    const navigate = useNavigate();
+    
 
     useEffect(() => {
-        const fetchSurvey = onSnapshot(surveyCollection, snapshot => {
-            setSurvey(snapshot.docs.map(doc => ({data: doc.data()})))
+        const fetchReport = onSnapshot(surveyCollection, snapshot => {
+            setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
         } )
         return () => {
-            fetchSurvey()
+            fetchReport()
         }
     }, []);
+
+    // const sortStatusProcess = async (e) => {
+    //     const data = await getDocs(query(reportCollection, orderBy('status', `${e.target.value}`)));
+    //     const newData = data.docs.map((doc) => ({
+    //         ...doc.data(),
+    //         id: doc.id,
+    //     }));
+        
+    //     setReport(newData);
+    // };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        navigate.push(`/search?name=${search}`);
+        setSearch("");
+      };
+
+    const sortStatusProcess = async (e) => { onSnapshot(query(collection(db,'surveys'), orderBy('status', `${e.target.value}`)), snapshot => {
+        setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})}
 
     // Get current 
     const indexOfLastItem = currentPage * itemPerPage;
     const indexOfFirstItem = indexOfLastItem - itemPerPage;
-    const currentItem = survey.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItem = report.slice(indexOfFirstItem, indexOfLastItem);
 
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);
@@ -36,12 +65,35 @@ export default function User() {
     return (
         <>
         <Sidebar>
-        <div class="sub-nav">
-            <h2>Survey</h2>
-        </div>
-        <h1>Survey Management</h1> 
-        <div className="App">
-            <table className="styled-table">
+        
+        <div class="report">
+            <SubNav content = {"Survey"} />
+            <h1>Survey Management</h1>
+            {/* <div class="query">
+                <div class="search">
+                    <form onSubmit={handleSubmit} style={{ display: "inline" }}>
+                        <input
+                            type="text"
+                            className="inputField"
+                            placeholder="Search Title ..."
+                            onChange={(e) => setSearch(e.target.value)}
+                            value={search}
+                        />
+                    </form>
+                </div>
+                <div class="sort">
+                    <label>Sort By: </label>
+                    <select className="dropdown" name="colValue" onChange={sortStatusProcess}>
+                        <option value="asc">Please Select</option>
+                        <option value="asc" >Pending Status </option >
+                        <option value="desc">Process Status</option>
+                        
+                    </select>
+                </div> 
+            </div> */}
+        
+        <div className="table-app">
+        <table className="styled-table">
                 <thead>
                     <tr>
                         <th style={{textAlign: "center"}}>Date Created</th>
@@ -60,17 +112,20 @@ export default function User() {
                                 <td>{id.data.title}</td>
                                 <td>{id.data.createdBy}</td>
                                 <td>{id.data.close.toDate().toDateString()}</td>
-                                <td></td>   
+                                <td>{id.data.status ? 'Open' :'Closed' }</td>   
                             </tr>
                         )
                     })}
                 </tbody>
             </table>
-            <Pagination
-                itemPerPage={itemPerPage}
-                totalItem={survey.length}
-                paginate={paginate}
-            />
+            <div class ="pag">
+                <Pagination
+                    itemPerPage={itemPerPage}
+                    totalItem={report.length}
+                    paginate={paginate}
+                />
+            </div>
+        </div>
         </div>
         </Sidebar>
         </> 

@@ -1,0 +1,12 @@
+.container .info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.change-status {
+    display: flex;
+}
+.dropdown-detail {
+    margin-bottom: 13px;
+    margin-left: 5%;
+}

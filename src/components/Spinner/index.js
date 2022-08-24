@@ -1,11 +1,15 @@
 import React from "react";
 import "./spinner.css";
+import Spinner from './spinner.gif';
 
-export default function LoadingSpinner() {
+const LoadingSpinnerButton = ({title, loading, onClick}) => {
   return (
-    <div className="spinner-container">
-      <div className="loading-spinner">
-      </div>
-    </div>
-  );
+    <button onClick={onClick} className='loading-spinner-button'>
+    {
+      loading ? <img src={Spinner} alt='spinner' /> : title + ' '     
+    }
+    </button>
+  )
 }
+
+export default LoadingSpinnerButton

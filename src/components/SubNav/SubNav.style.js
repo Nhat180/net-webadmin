@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const DashBoardWrapper = styled.div`
     background-color: #f8f8f8;
-    margin: 20px 0px;
+    margin: 5px 0px;
 `;
 export const DashBoardContent = styled.div`
     display: flex;

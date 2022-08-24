@@ -6,7 +6,7 @@
     
   }
 
-  .sub-nav {
+  /* .sub-nav {
     background-color: #f7f7f7;
     padding: 15px;
   }
@@ -14,15 +14,15 @@
   .sub-nav h2{
     font-weight: 800;
     margin-left: 2%;
-  }
-
+  } */
+/* 
   .updateTime {
     font-size: 15px;
     font-weight: 500;
     margin-left: 84%;
     margin-bottom: 10px;
 
-  }
+  } */
 
   h1 {
     text-align: center;
@@ -32,50 +32,57 @@
   }
 
   .menu-table {
-    border: 1px solid black;
-    width: 95%;
-    height: 50px;
+    border: 0.5px solid black;
+    width: 90%;
     margin: 0 auto;
     background-color: #f1f1f1;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
-
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); 
   }
-
+  
   table th {
     border-bottom: 0.5px solid black;
     border: 1px solid black;
     height: 30px;
   }
- 
-  tbody{
-    vertical-align: middle;
-  } 
-
-  tbody th{
+  
+  table thead tr th {
+    text-align: center;
+    height: 60px;
+    background-color: #C0C0C0;
+  }
+  /* tbody th{
     height: 360px;
     vertical-align: inherit;
-  }
+  } */
+
 
   tbody tr th {
-    height: 200px;
-    border-bottom: 0.5px outset black;
+    height: 150px;
+    text-align: center;
     vertical-align: middle;
-    text-align: -internal-center;
-  }
-  
-  .normalBtn {
-    background: burlywood;
-    color: black;
-    /* text-transform: uppercase; */
-    border-radius: 7px;
-    border: none;
-    margin-top: 20px;
-    float: right;
-    margin-right: 2.5%;
-    padding: 15px 50px 15px;
-    font-size: 18px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 700;
-  }
+    height: 200px;
 
-  
+  }
+ 
+  .refresh{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.time {
+  margin-bottom: 0.5%;
+}
+
+.time-column-left, .time-column-right {
+  display: inline-block;
+}
+
+.time-column-left {
+  margin-left: 5%;
+  font-weight: 500;
+}
+
+.time-column-right {
+  margin-left: 67.5%;
+}

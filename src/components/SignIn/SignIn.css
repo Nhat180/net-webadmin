@@ -32,3 +32,27 @@
     font-weight: 500px;
     position: relative;
 }
+
+.loading-spinner-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #274D91;
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    text-transform: uppercase;
+    padding: 0 1rem;
+    height: 3rem;
+    
+}
+.loading-spinner-button:hover {
+    box-shadow: 10px 10px 5px 129px rgba(0,0,0,0.1) inset;
+    -webkit-box-shadow: 10px 10px 5px 129px rgba(0,0,0,0.1) inset;
+    -moz-box-shadow: 10px 10px 5px 129px rgba(0,0,0,0.1) inset;
+}
+.loading-spinner-button > img {
+    max-width: 25px;
+    margin: 0.5rem;
+}

@@ -1,6 +1,9 @@
+
 .pagination {
     display: inline-block;
-}
+    align-items: center;
+    margin-left: 45%;
+  }
 
  nav ul {
     /* margin-left: 36.7%; */
@@ -12,7 +15,7 @@
     text-decoration: none;
     transition: background-color .3s;
     border: 1px solid #ddd; 
-
+    
 }
 
 .pagination a.active {
