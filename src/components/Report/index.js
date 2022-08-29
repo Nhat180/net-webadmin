@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import "./report.css";
 import{ db } from "../../firebase";
-import { doc, getDocs, collection,  query, where, orderBy} from "firebase/firestore";
+import { doc, getDocs, collection,  query, where, orderBy, startAt,equalTo, startAfter} from "firebase/firestore";
 import Sidebar from '../Sidebar.jsx'
 import { onSnapshot } from "firebase/firestore";
 import "../../Sidebar.css"
@@ -24,6 +24,8 @@ export default function Report() {
     const orderByStatus = query(collection(db,'reports'), orderBy('status', 'desc'))
     const [search, setSearch] = useState("");
     const navigate = useNavigate();
+    // the search result
+    //  const [results, setResults] = useState(currentItem);    
     
 
     useEffect(() => {
@@ -45,13 +47,62 @@ export default function Report() {
     //     setReport(newData);
     // };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        navigate.push(`/search?name=${search}`);
-        setSearch("");
-      };
+    // const filter = (e) => {
+    //     const keyword = e.target.value;
+    
+    //     if (keyword !== '') {
+    //       const results = (currentItem).filter((currentItem) => {
+    //         return currentItem.data.title.toLowerCase().startsWith(keyword.toLowerCase());
+    //         // Use the toLowerCase() method to make it case-insensitive
+    //       });
+    //       setResults(results);
+    //     } else {
+    //         setResults(USERS);
+    //       // If the text field is empty, show all users
+    //     }
+    
+    //     setName(keyword);
+    //   };
+    
 
-    const sortStatusProcess = async (e) => { onSnapshot(query(collection(db,'reports'), orderBy('status', `${e.target.value}`)), snapshot => {
+
+    const sortStatusProcess = async (e) => {
+        
+        if (e.target.value == "solved") {
+            onSnapshot(query(collection(db,'reports'), orderBy('status'), where('status','==', 'solved')), snapshot => {
+            setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        } else if (e.target.value == "pending") {
+            onSnapshot(query(collection(db,'reports'), orderBy('status'), where('status','==', 'pending')), snapshot => {
+                setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        } else {
+            onSnapshot(query(collection(db,'reports'), orderBy('status'), where('status','==', 'process')), snapshot => {
+                setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        }
+
+    }
+
+    const sortType = async (e) => {
+        
+        if (e.target.value == "sanitary") {
+            onSnapshot(query(collection(db,'reports'), orderBy('type'), where('type','==', 'SANITARY')), snapshot => {
+            setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        } else if (e.target.value == "other") {
+            onSnapshot(query(collection(db,'reports'), orderBy('type'), where('type','==', 'Other')), snapshot => {
+                setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        } else if (e.target.value == "device") {
+            onSnapshot(query(collection(db,'reports'), orderBy('type'), where('type','==', 'Device')), snapshot => {
+                setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        } else if (e.target.value == "food") {
+            onSnapshot(query(collection(db,'reports'), orderBy('type'), where('type','==', 'Food')), snapshot => {
+                setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        } else {
+            onSnapshot(query(collection(db,'reports'), orderBy('type'), where('type','==', 'SNACK')), snapshot => {
+                setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        }
+
+    }
+    
+    const searchTitle = async (e) => { onSnapshot(query(collection(db,'reports'), orderBy('dateCreate'), startAt(`${e.target.value}`)), snapshot => {
         setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})}
 
     // Get current 
@@ -71,36 +122,80 @@ export default function Report() {
             <h1>Report Management</h1>
             <div class="query">
                 <div class="search">
-                    <form onSubmit={handleSubmit} style={{ display: "inline" }}>
+                    <form  style={{ display: "inline" }}>
                         <input
                             type="text"
                             className="inputField"
-                            placeholder="Search Title ..."
-                            onChange={(e) => setSearch(e.target.value)}
+                            placeholder="  Search All ..."
+                            // onChange={searchTitle}
                             value={search}
                         />
                     </form>
                 </div>
-                <div class="sort">
+                {/* <div class="sort">
                     <label>Sort By: </label>
                     <select className="dropdown" name="colValue" onChange={sortStatusProcess}>
                         <option value="asc">Please Select</option>
                         <option value="asc" >Pending Status </option >
                         <option value="desc">Process Status</option>
-                        
                     </select>
-                </div> 
+                </div>  */}
             </div>
         
         <div className="table-app">
             <table className="styled-table">
                 <thead>
                     <tr>
-                        <th style={{textAlign: "center"}}>Date Created</th>
-                        <th style={{textAlign: "center"}}>Title</th>
-                        <th style={{textAlign: "center"}}>Creator</th>
-                        <th style={{textAlign: "center"}}>Type</th>
-                        <th style={{textAlign: "center"}}>Status</th>
+                        <th style={{textAlign: "center"}}>Date Created
+                            <select className="dropdown" name="colValue" >
+                                <option value="">Asc</option>
+                                <option value="" >Desc</option >
+                            </select>
+                        </th>
+                        <th style={{textAlign: "center"}}>Title
+                            <div class="search">
+                                <form  style={{ display: "inline" }}>
+                                    <input
+                                        type="text"
+                                        className="inputField"
+                                        placeholder="Search Title"
+                                        // onChange={searchTitle}
+                                        value={search}
+                                    />
+                                </form>
+                            </div>
+                        </th>
+                        <th style={{textAlign: "center"}}>Creator
+                            <div class="search">
+                                <form  style={{ display: "inline" }}>
+                                    <input
+                                        type="text"
+                                        className="inputField"
+                                        placeholder="Search Creator"
+                                        // onChange={searchTitle}
+                                        value={search}
+                                    />
+                                </form>
+                            </div>
+                        </th>
+
+                        <th style={{textAlign: "center"}}>Type
+                            <select className="dropdown" name="colValue" onChange={sortType}>
+                                <option value="sanitary">Sanitary</option>
+                                <option value="snack" >Snack</option >
+                                <option value="device">Device</option>
+                                <option value="other">Other</option>
+                                <option value="food">Food</option>
+                            </select>
+                        </th>
+
+                        <th style={{textAlign: "center"}}>Status
+                            <select className="dropdown" name="colValue" onChange={sortStatusProcess}>
+                                <option value="solved">Solved</option>
+                                <option value="pending" >Pending </option >
+                                <option value="process">Process</option>
+                            </select>
+                        </th>
                     </tr>   
                 </thead>
                 <tbody>

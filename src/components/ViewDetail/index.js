@@ -1,7 +1,7 @@
 import React, { useState, useEffect, View, Image , useRef} from "react";
 import "./ViewDetail.css";
 import{ db } from "../../firebase";
-import { doc, getDoc, collection, addDoc, updateDoc} from "firebase/firestore";
+import { doc, getDoc, collection, addDoc, updateDoc,setDoc, connectFirestoreEmulator} from "firebase/firestore";
 import Sidebar from '../Sidebar.jsx'
 import { onSnapshot } from "firebase/firestore";
 // import "../../Sidebar.css"
@@ -22,27 +22,24 @@ export default function ViewDetail() {
     const [imgUrls, setIMGUrls] = useState([{url: ""}]);
     const docRef = doc(db, "reports", id) 
     const commentsRef = useRef(null);
-
+    
 
     useEffect(() => {
          const fetchDocById = async () => {
             const docSnap = await getDoc(docRef)
-
             if (docSnap.exists()) {
-               
                setUser({
                   ...docSnap.data()
             })
-            ;
+               
             } else {
                setUser({});
             }
-      }
+         }
          fetchDocById()
    }, [id]);
-   // console.log("imgUrls", imgUrls);
    
-
+      console.log('user', user)
    useEffect(() => {
       const fetchComment = onSnapshot(commentCollection, snapshot => {
          setComment(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
@@ -52,37 +49,61 @@ export default function ViewDetail() {
       }
   }, []);
 
+  
+
    const addCmt = async () => {
       if(commentsRef.current && commentsRef.current.value) {
-         let updatedComments = comments
-         await addDoc(commentCollection, {
+         let foo = 0;
+         const checkTotalCmt = async () => {
+            const docSnap = await getDoc(docRef)
+            if (docSnap.exists()) {
+               
+               setUser({
+                  ...docSnap.data()
+                  
+            })
+            } else {
+               setUser({});
+            }}
+         checkTotalCmt()
+         var new_cmt_id=''
+         if (user.totalCom == 0) {
+            foo = 00;
+            new_cmt_id = toString(00)
+         } else if(user.totalCom > 0 && user.totalCom < 10) {
+            foo = user.totalCom
+            new_cmt_id=toString("0"+foo)
+         }
+         else {
+            foo = user.totalCom ;
+            new_cmt_id=foo.toString()
+         }
+
+         // var new_cmt_id = foo.toString();
+         console.log("new_cmt",foo)
+         console.log("type", typeof new_cmt_id)
+         await setDoc(doc(db, "reports", id, "comments",new_cmt_id), {
             creator: "admin",
-            imgUr: "",
+            imgUrl: "",
             text: commentsRef.current.value,
             type: "text"
-      })
-         setComment([...comments], updatedComments)
+         })
          updateDoc(docRef, {
             totalCom: user.totalCom + 1
          })
          
-
-      ;
       }
       const fetchDocById = async () => {
          const docSnap = await getDoc(docRef)
-
          if (docSnap.exists()) {
-            
             setUser({
                ...docSnap.data()
          })
-           
-         ;
+            
          } else {
             setUser({});
          }
-   }
+      }
       fetchDocById()
       const fetchComment = onSnapshot(commentCollection, snapshot => {
          setComment(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
@@ -114,7 +135,6 @@ export default function ViewDetail() {
          fetchDocById()
       }
 
-      console.log("user", user);
 
 
       return (
@@ -149,14 +169,12 @@ export default function ViewDetail() {
             <h4>Report Description</h4>
             {/* <hr /> */}
             <p>{user.description}</p>
-            <img src={user.imgUrls}  width="200" height="200"></img>
-            {/* <img src={user.imgUrls}  width="200" height="200"></img>  */}
-            {/* { user.map(image => (user.imgUrls.map((url) => (<img src={url}> </img>)))) }
-            {/* { user.imgUrls.map((url) => (<img src={url}> </img>)) } */}
-
-            {/* <p>{user.imgUrls.length}</p> */}
-            {/* {user && user.imgUrls.length > 0 && user.imgUrls.map((url) => (<img src={url}> </img>))} */}
-            {/* { getDownLoadURL(user.imgUrls).map((url) => (<img src={url}> </img>)) }             */}
+            <div className ="imgSlide">
+               { user.imgUrls?.map((url) =>
+               (<img src={url} width="200" height="200"/>)) 
+               }
+            </div>
+           
          </div>
   <br />
   <div className="container">
@@ -201,9 +219,6 @@ export default function ViewDetail() {
              img={comment.data.imgUrl} 
           />
     )}
-    
-
-   
             </div>
          </Sidebar>
         </>

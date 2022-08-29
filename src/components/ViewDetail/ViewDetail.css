@@ -10,3 +10,6 @@
     margin-bottom: 13px;
     margin-left: 5%;
 }
+.imgSlide {
+    display: flex;
+}

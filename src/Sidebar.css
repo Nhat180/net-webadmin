@@ -9,14 +9,12 @@
 main{
     width: 100%;
     padding: 20px;
-    /* height: 150vh; */
 }
 .sidebar{
     background: linear-gradient(60deg, #0f2147 0%, #0f2147 100%)#212F3C;
     color: #fff;
     width: 200px;
     transition: all 0.5s;
-    height: 850px;
 }
 .top_section{
     display: flex;

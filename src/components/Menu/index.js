@@ -68,12 +68,12 @@ export default function Menu() {
     return (
         <>  
             <Sidebar>
-            <div>
+            <div >
                 <SubNav content = {"Menu"} />
                 <h1>LUNCH MENU</h1>
                 <div className="time">
                     <div class="time-column-left">
-                        {menu.map(menu =>((menu.id === 'updateTime') &&<div>Last Updated: {menu.data.updatedTimeField.toDate().toDateString()}</div>))}
+                        {menu.map(menu =>((menu.id === 'updateTime') &&<div>Last Updated: {menu.data.updatedTimeField.toDate().toLocaleTimeString("en-US")}, {menu.data.updatedTimeField.toDate().toDateString()}</div>))}
                     </div>
                     <div class="time-column-right">
                         <button className="refresh" onClick={updateMenu}>
@@ -219,7 +219,7 @@ export default function Menu() {
                     
                 </tbody>
             </table>
-            </div>
+                </div>
             </div>
            
             </Sidebar>

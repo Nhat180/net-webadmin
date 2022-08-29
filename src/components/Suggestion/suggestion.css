@@ -17,7 +17,7 @@
 
 
  .table-app table thead tr th{
-    background-color: #009879;
+    /* background-color: #009879; */
     color: white;
     text-align: left;
 }

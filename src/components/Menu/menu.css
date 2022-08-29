@@ -6,29 +6,13 @@
     
   }
 
-  /* .sub-nav {
-    background-color: #f7f7f7;
-    padding: 15px;
-  }
 
-  .sub-nav h2{
-    font-weight: 800;
-    margin-left: 2%;
-  } */
-/* 
-  .updateTime {
-    font-size: 15px;
-    font-weight: 500;
-    margin-left: 84%;
-    margin-bottom: 10px;
-
-  } */
-
-  h1 {
+  .app-menu h1 {
     text-align: center;
     font-size: 35px;
     font-weight: 600;
-    margin-bottom: 1%;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 
   .menu-table {
@@ -50,10 +34,7 @@
     height: 60px;
     background-color: #C0C0C0;
   }
-  /* tbody th{
-    height: 360px;
-    vertical-align: inherit;
-  } */
+  
 
 
   tbody tr th {
@@ -68,6 +49,10 @@
     display: flex;
     gap: 10px;
     align-items: center;
+}
+
+.App {
+  padding-bottom: 20px;
 }
 
 .time {
@@ -86,3 +71,4 @@
 .time-column-right {
   margin-left: 67.5%;
 }
+

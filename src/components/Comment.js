@@ -20,8 +20,7 @@ return (
                     props.type === "text" ?  <p>{props.description}</p> : <img src={props.img} width="200" height="200"></img>
                   }
                   </div>
-                  {/* <p>{props.description}</p>
-                  <img src={props.img} width="200" height="200"></img> */}
+                  
               </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { doc, getDoc, collection, setDoc} from "firebase/firestore";
 import Sidebar from '../Sidebar.jsx'
 import { onSnapshot } from "firebase/firestore";
 import SubNav from '../SubNav'
+import "../../Sidebar.css"
 
 export default function User() {
 
@@ -55,7 +56,7 @@ export default function User() {
     return (
         <>
         <Sidebar>
-        <div>
+        
         <SubNav content = {"User"} />
         <h1>User Management</h1>  
         <div className="table-app">
@@ -84,7 +85,6 @@ export default function User() {
                     })}
                 </tbody>
             </table>
-        </div>
         </div>
         
         </Sidebar>
