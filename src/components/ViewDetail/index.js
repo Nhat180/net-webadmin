@@ -68,18 +68,16 @@ export default function ViewDetail() {
          checkTotalCmt()
          var new_cmt_id=''
          if (user.totalCom == 0) {
-            foo = 00;
-            new_cmt_id = toString(00)
+            new_cmt_id = '00'
          } else if(user.totalCom > 0 && user.totalCom < 10) {
             foo = user.totalCom
-            new_cmt_id=toString("0"+foo)
+            new_cmt_id="0"+foo
          }
          else {
             foo = user.totalCom ;
             new_cmt_id=foo.toString()
          }
 
-         // var new_cmt_id = foo.toString();
          console.log("new_cmt",foo)
          console.log("type", typeof new_cmt_id)
          await setDoc(doc(db, "reports", id, "comments",new_cmt_id), {
