@@ -52,20 +52,21 @@ export default function ViewDetail() {
   
 
    const addCmt = async () => {
+      const checkTotalCmt = async () => {
+         const docSnap = await getDoc(docRef)
+         if (docSnap.exists()) {
+            
+            setUser({
+               ...docSnap.data()
+               
+         })
+         } else {
+            setUser({});
+         }}
+      checkTotalCmt()
       if(commentsRef.current && commentsRef.current.value) {
          let foo = 0;
-         const checkTotalCmt = async () => {
-            const docSnap = await getDoc(docRef)
-            if (docSnap.exists()) {
-               
-               setUser({
-                  ...docSnap.data()
-                  
-            })
-            } else {
-               setUser({});
-            }}
-         checkTotalCmt()
+         
          var new_cmt_id=''
          if (user.totalCom == 0) {
             new_cmt_id = '00'
