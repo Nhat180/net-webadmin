@@ -32,7 +32,8 @@
   table thead tr th {
     text-align: center;
     height: 60px;
-    background-color: #C0C0C0;
+    background-color: #009879;
+    color: white;
   }
   
 
@@ -69,6 +70,7 @@
 }
 
 .time-column-right {
-  margin-left: 67.5%;
+  margin-left: 60.5%;
 }
+
 

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import "./report.css";
 import{ db } from "../../firebase";
-import { doc, getDocs, collection,  query, where, orderBy, startAt,equalTo, startAfter} from "firebase/firestore";
+import { doc, getDocs, collection,  query, where, orderBy, startAt} from "firebase/firestore";
 import Sidebar from '../Sidebar.jsx'
 import { onSnapshot } from "firebase/firestore";
 import "../../Sidebar.css"
@@ -64,13 +64,20 @@ export default function Report() {
     //     setName(keyword);
     //   };
     
-
+    const sortDate = async (e) => {
+        if (e.target.value =='asc') {
+            onSnapshot(query(collection(db,'reports'), orderBy('dateCreate','asc')), snapshot => {
+                setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        } else {
+            onSnapshot(query(collection(db,'reports'), orderBy('dateCreate','desc')), snapshot => {
+                setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        }
+    }
 
     const sortStatusProcess = async (e) => {
-        
         if (e.target.value == "solved") {
             onSnapshot(query(collection(db,'reports'), orderBy('status'), where('status','==', 'solved')), snapshot => {
-            setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+                setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
         } else if (e.target.value == "pending") {
             onSnapshot(query(collection(db,'reports'), orderBy('status'), where('status','==', 'pending')), snapshot => {
                 setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
@@ -78,7 +85,6 @@ export default function Report() {
             onSnapshot(query(collection(db,'reports'), orderBy('status'), where('status','==', 'process')), snapshot => {
                 setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
         }
-
     }
 
     const sortType = async (e) => {
@@ -102,7 +108,7 @@ export default function Report() {
 
     }
     
-    const searchTitle = async (e) => { onSnapshot(query(collection(db,'reports'), orderBy('dateCreate'), startAt(`${e.target.value}`)), snapshot => {
+    const searchTitle = async (e) => { onSnapshot(query(collection(db,'reports'), orderBy('title'), startAt(`${e.target.value}`)), snapshot => {
         setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})}
 
     // Get current 
@@ -120,7 +126,7 @@ export default function Report() {
         <div class="report">
             <SubNav content = {"Report"} />
             <h1>Report Management</h1>
-            <div class="query">
+            {/* <div class="query">
                 <div class="search">
                     <form  style={{ display: "inline" }}>
                         <input
@@ -132,24 +138,24 @@ export default function Report() {
                         />
                     </form>
                 </div>
-                {/* <div class="sort">
+                <div class="sort">
                     <label>Sort By: </label>
                     <select className="dropdown" name="colValue" onChange={sortStatusProcess}>
                         <option value="asc">Please Select</option>
                         <option value="asc" >Pending Status </option >
                         <option value="desc">Process Status</option>
                     </select>
-                </div>  */}
-            </div>
+                </div> 
+            </div> */}
         
         <div className="table-app">
             <table className="styled-table">
                 <thead>
                     <tr>
                         <th style={{textAlign: "center"}}>Date Created
-                            <select className="dropdown" name="colValue" >
-                                <option value="">Asc</option>
-                                <option value="" >Desc</option >
+                            <select className="dropdown" name="colValue" onChange={sortDate}>
+                                <option value="asc">Asc</option>
+                                <option value="desc" >Desc</option >
                             </select>
                         </th>
                         <th style={{textAlign: "center"}}>Title
@@ -157,10 +163,10 @@ export default function Report() {
                                 <form  style={{ display: "inline" }}>
                                     <input
                                         type="text"
-                                        className="inputField"
+                                        // className="inputField"
                                         placeholder="Search Title"
-                                        // onChange={searchTitle}
-                                        value={search}
+                                        onChange={searchTitle}
+                                        // value={search}
                                     />
                                 </form>
                             </div>
@@ -196,35 +202,21 @@ export default function Report() {
                                 <option value="process">Process</option>
                             </select>
                         </th>
+                        <th style={{textAlign: "center"}}>Action</th>
                     </tr>   
                 </thead>
                 <tbody>
                     {currentItem.map((currentItem) =>{
                         return (
                             <tr >
-                                <td >
-                                    <Link to={`/view/${currentItem.id}`}>
-                                        {currentItem.data.dateCreate}
-                                    </Link>
-                                </td>
+                                <td>{currentItem.data.dateCreate}</td>
+                                <td>{currentItem.data.title}</td>
+                                <td>{currentItem.data.creator}</td>
+                                <td>{currentItem.data.type}</td>
+                                <td>{currentItem.data.status}</td>
                                 <td>
                                     <Link to={`/view/${currentItem.id}`}>
-                                        {currentItem.data.title}
-                                    </Link>
-                                </td>
-                                <td >
-                                    <Link to={`/view/${currentItem.id}`}>
-                                        {currentItem.data.creator}
-                                    </Link>
-                                </td>
-                                <td>
-                                    <Link to={`/view/${currentItem.id}`}>
-                                        {currentItem.data.type}
-                                    </Link>
-                                </td>
-                                <td>
-                                    <Link to={`/view/${currentItem.id}`}>
-                                        {currentItem.data.status}
+                                        View
                                     </Link>
                                 </td>
                             </tr>

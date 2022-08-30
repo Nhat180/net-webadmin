@@ -9,6 +9,7 @@
 main{
     width: 100%;
     padding: 20px;
+    height: 100%;
 }
 .sidebar{
     background: linear-gradient(60deg, #0f2147 0%, #0f2147 100%)#212F3C;
@@ -49,3 +50,4 @@ main{
 .icon, .link_text{
     font-size: 20px;
 }
+

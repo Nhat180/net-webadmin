@@ -124,7 +124,7 @@ export default function Suggestion() {
                                 </td>
                                 <td>
                                     <Link to={`/suggest/${currentItem.id}`}>
-                                        {currentItem.data.type}
+                                        
                                     </Link>
                                 </td>
                                 <td>

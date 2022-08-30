@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./user.css";
 import{ db } from "../../firebase";
-import { doc, getDoc, collection, setDoc} from "firebase/firestore";
+import { setDoc,doc, getDoc, collection,  query, where, orderBy, startAt} from "firebase/firestore";
 import Sidebar from '../Sidebar.jsx'
 import { onSnapshot } from "firebase/firestore";
 import SubNav from '../SubNav'
@@ -16,11 +16,24 @@ export default function User() {
     useEffect(() => {
         const fetchUser = onSnapshot(userCollection, snapshot => {
             setUser(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
-        } )
+        })
         return () => {
             fetchUser()
         }
     }, []);
+
+    const sortUserRole = async (e) => {
+        if (e.target.value == "all") {
+            onSnapshot(userCollection, snapshot => {
+                setUser(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        } else if (e.target.value == "user") {
+            onSnapshot(query(collection(db,'users'), orderBy('isAdmin'), where('isAdmin','==', false)), snapshot => {
+                setUser(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        } else {
+            onSnapshot(query(collection(db,'users'), orderBy('isAdmin'), where('isAdmin','==', true)), snapshot => {
+                setUser(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        }
+    }
 
     async function promote(email) {
         const docRef = doc(db, "users", email);
@@ -52,7 +65,7 @@ export default function User() {
         }
     }
 
-
+    
     return (
         <>
         <Sidebar>
@@ -65,7 +78,13 @@ export default function User() {
                     <tr>
                         <th></th>
                         <th style={{textAlign: "center"}}>Username</th>
-                        <th style={{textAlign: "center"}}>Role</th>
+                        <th style={{textAlign: "center"}}>Role
+                            <select className="dropdown" name="colValue" onChange={sortUserRole}>
+                                <option value="all">All</option>
+                                <option value="user">User</option>
+                                <option value="admin" >Admin</option >
+                            </select>
+                        </th>
                         <th style={{textAlign: "center"}}>Action</th>
                     </tr>   
                 </thead>

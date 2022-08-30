@@ -10,7 +10,8 @@ import { BiUserCircle} from "react-icons/bi"
 import { NavLink, useNavigate } from 'react-router-dom';
 import NetcompanyLogo from "../net.jpg";
 import { UserAuth } from '../context/AuthContext';
-
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 const Sidebar = ({children}) => {
 
@@ -18,6 +19,10 @@ const Sidebar = ({children}) => {
     const[isOpen ,setIsOpen] = useState(false);
     const toggle = () => setIsOpen (!isOpen);
     const {logout} = UserAuth();
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true)
+
     const menuItem=[
         {
             path:"/menu",
@@ -77,10 +82,25 @@ const Sidebar = ({children}) => {
                        </NavLink>
                    ))
                }
-               <button className="link"  onClick={signOut}>
+               <button className="link"  onClick={handleShow} >
                     <div className="icon"><TbLogout /></div>
                     <div style={{display: isOpen ? "block" : "none"}} className="link_text">Log out</div>
-               </button>    
+                    
+               </button>
+               <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Sign Out</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Are you sure that you want to sign out?</Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        No, Cancel
+                    </Button>
+                    <Button variant="primary" onClick={signOut}>
+                        Yes, Log Out
+                    </Button>
+                    </Modal.Footer>
+                </Modal>
            </div>
            <main>{children}</main>
         </div>

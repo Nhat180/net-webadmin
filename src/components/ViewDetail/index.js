@@ -24,20 +24,32 @@ export default function ViewDetail() {
     const commentsRef = useRef(null);
     
 
-    useEffect(() => {
-         const fetchDocById = async () => {
-            const docSnap = await getDoc(docRef)
-            if (docSnap.exists()) {
-               setUser({
-                  ...docSnap.data()
-            })
+   //  useEffect(() => {
+   //       const fetchDocById = async () => {
+   //          const docSnap = await getDoc(docRef)
+   //          if (docSnap.exists()) {
+   //             setUser({
+   //                ...docSnap.data()
+   //          })
                
-            } else {
-               setUser({});
-            }
-         }
+   //          } else {
+   //             setUser({});
+   //          }
+   //       }
+   //       fetchDocById()
+   // }, [id]);
+
+   useEffect(() => {
+      const fetchDocById = onSnapshot(docRef, (doc) =>{
+         // setUser(doc.docs.map(doc => ({id: doc.id, data: doc.data()})))
+         setUser({...doc.data() })
+         console.log("Current data: ", doc.data());
+      })
+      return () => {
          fetchDocById()
-   }, [id]);
+     } 
+      
+}, [id]);
    
       console.log('user', user)
    useEffect(() => {
@@ -52,66 +64,64 @@ export default function ViewDetail() {
   
 
    const addCmt = async () => {
-      const checkTotalCmt = async () => {
-         const docSnap = await getDoc(docRef)
-         if (docSnap.exists()) {
-            
-            setUser({
-               ...docSnap.data()
-               
-         })
-         } else {
-            setUser({});
-         }}
-      checkTotalCmt()
-      if(commentsRef.current && commentsRef.current.value) {
-         let foo = 0;
-         
-         var new_cmt_id=''
-         if (user.totalCom == 0) {
-            new_cmt_id = '00'
-         } else if(user.totalCom > 0 && user.totalCom < 10) {
-            foo = user.totalCom
-            new_cmt_id="0"+foo
-         }
-         else {
-            foo = user.totalCom ;
-            new_cmt_id=foo.toString()
-         }
+            let foo = 0;
+            var new_cmt_id='';
+            if (user.totalCom == 0) {
+               new_cmt_id = '00'
+            } else if(user.totalCom > 0 && user.totalCom < 10) {
+               foo = user.totalCom
+               new_cmt_id="0"+foo
+            }
+            else {
+               foo = user.totalCom ;
+               new_cmt_id=foo.toString()
+            }
+            await setDoc(doc(db, "reports", id, "comments",new_cmt_id), {
+               creator: "admin",
+               imgUrl: "",
+               text: commentsRef.current.value,
+               type: "text"
+            })
+            await updateDoc(docRef, {
+               totalCom: user.totalCom + 1
+            })
 
-         console.log("new_cmt",foo)
-         console.log("type", typeof new_cmt_id)
-         await setDoc(doc(db, "reports", id, "comments",new_cmt_id), {
-            creator: "admin",
-            imgUrl: "",
-            text: commentsRef.current.value,
-            type: "text"
-         })
-         updateDoc(docRef, {
-            totalCom: user.totalCom + 1
-         })
-         
-      }
-      const fetchDocById = async () => {
-         const docSnap = await getDoc(docRef)
-         if (docSnap.exists()) {
-            setUser({
-               ...docSnap.data()
-         })
-            
-         } else {
-            setUser({});
-         }
-      }
-      fetchDocById()
-      const fetchComment = onSnapshot(commentCollection, snapshot => {
-         setComment(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
-      } )
-      return () => {
-          fetchComment()
-      }
+   //          const docSnap = await getDoc(docRef)
+   //          if (docSnap.exists()) {
+   //             setUser({
+   //                ...docSnap.data()  
+   //          })
+   //          console.log("total cmt hien tai ne",user.totalCom)
+
+   //          if (user.totalCom == 0) {
+   //             new_cmt_id = '00'
+   //          } else if(user.totalCom > 0 && user.totalCom < 10) {
+   //             foo = user.totalCom
+   //             new_cmt_id="0"+foo
+   //          }
+   //          else {
+   //             foo = user.totalCom ;
+   //             new_cmt_id=foo.toString()
+   //          }
+
+   //          await setDoc(doc(db, "reports", id, "comments",new_cmt_id), {
+   //             creator: "admin",
+   //             imgUrl: "",
+   //             text: commentsRef.current.value,
+   //             type: "text"
+   //          })
+   //          await updateDoc(docRef, {
+   //             totalCom: user.totalCom + 1
+   //          })
+      
+   // }
+   const fetchComment = onSnapshot(commentCollection, snapshot => {
+      setComment(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
+   } )
+   return () => {
+       fetchComment()
    }
-
+   }
       const updateStatus = async (e) => {
          updateDoc(docRef, {
             status: `${e.target.value}`
