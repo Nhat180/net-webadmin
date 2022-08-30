@@ -113,16 +113,16 @@ export default function Survey() {
                     </tr>   
                 </thead>
                 <tbody>
-                    {currentItem.map((id) =>{
+                    {currentItem.map((currentItem) =>{
                         return (
                             <tr >
-                                <td>{id.data.created.toDate().toDateString()}</td>
-                                <td>{id.data.title}</td>
-                                <td>{id.data.createdBy}</td>
-                                <td>{id.data.close.toDate().toDateString()}</td>
-                                <td>{id.data.status ? 'Open' :'Closed' }</td>
+                                <td>{currentItem.data.created.toDate().toDateString()}</td>
+                                <td>{currentItem.data.title}</td>
+                                <td>{currentItem.data.createdBy}</td>
+                                <td>{currentItem.data.close.toDate().toDateString()}</td>
+                                <td>{currentItem.data.status ? 'Open' :'Closed' }</td>
                                 <td>
-                                    <Link to={`/survey/${currentItem.id}`}>
+                                    <Link to={`/surveyView/${currentItem.id}`}>
                                         View
                                     </Link>
                                 </td>   

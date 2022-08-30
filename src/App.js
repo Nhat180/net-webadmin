@@ -13,7 +13,7 @@ import ViewDetail from './components/ViewDetail/index';
 import CreateSurvey from './components/SurveyCreate/index';
 import ViewSurvey from './components/SurveyView/index'
 import SuggestionDetail from './components/SuggestionDetail/index';
-import SurveyDetail from './components/SurveyDetail/index';
+// import ViewSurvey from './components/SurveyDetail/index';
 
 
 
@@ -24,14 +24,14 @@ function App() {
       {/* <Navbar information={information} /> */}
       <div style={{ minHeight: "69vh" }}>
         <Routes>
-            <Route path='/survey/:id' element={<SurveyDetail/>}/>
+            <Route path='/surveyView/:id' element={<ViewSurvey/>}/>
             <Route path='/suggest/:id' element={<SuggestionDetail/>}/>
             <Route path='/view/:id' element={<ViewDetail/>}/>
             {/* <Route path='/' element={<Menu />}/> */}
             <Route path='/menu' element={<Menu />}/>
             <Route path='/user' element={<User />}/>
             <Route path='/surveyCreate' element={<CreateSurvey />}/>
-            <Route path='/surveyView' element={<ViewSurvey />}/>
+            {/* <Route path='/surveyView' element={<ViewSurvey />}/> */}
             <Route path='/user' element={<User />}/>
             <Route path='/!' element={<Report />}/>
             <Route path='/report' element={<Report />}/>

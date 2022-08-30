@@ -11,24 +11,34 @@ import { onSnapshot } from "firebase/firestore";
 import Chart from 'react-apexcharts'
 import { maxValue } from "react-admin";
 import { Button } from "react-bootstrap";
+import { useParams, Link } from "react-router-dom";
 
 export default function SurveyView() {
-    const surveyID = "cBdG0CfsBbvixRHlNaWc";
-    const docRef = collection(db, "surveys");
-    const [surveys, setSurveys] = useState([]);
+    // const surveyID = "";
+    const docRef = doc(db, "surveys", id);
+    const [surveys, setSurveys] = useState({});
     const [questions, setQuestions] = useState([]);
-
+    const { id } = useParams();
+    useEffect(() => {
+        const fetchSurveyById = onSnapshot(docRef, (doc) =>{
+           setSurveys({...doc.data() })
+        })
+        console.log("Current data: ", doc.data());
+        return () => {
+            fetchSurveyById()
+       } 
+        
+     }, [id]);
+    
     useEffect(() => {
         
-        onSnapshot(collection(db, "surveys", surveyID, "questions"), snapshot => {
+        onSnapshot(collection(db, "surveys", id, "questions"), snapshot => {
             setQuestions(snapshot.docs.map(doc => ({id: doc.id, data: doc.data(), answers: []})))
         } )        
 
-        onSnapshot(docRef, snapshot => {
-            setSurveys(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
-        } )
-        
     }, []);
+
+    
 
     function questionUI(){            
         return questions.map((ques, i)=>
@@ -40,7 +50,7 @@ export default function SurveyView() {
 
                     </div>
                     <div className="add_question_body"> 
-                        <Answer surveyID={surveyID} questionID={ques.id} type={ques.data.type}></Answer>
+                        {/* <Answer surveyID={id} questionID={ques.id} type={ques.data.type}></Answer> */}
                     </div>
                     
 
@@ -54,15 +64,15 @@ export default function SurveyView() {
         <>  
             <Sidebar>
             <div class="sub-nav" style={{display:'flex'}}>
-                <h2 style={{display:'inline-block'}}>View survey {surveyID}</h2>
-                <button style={{display:'inline-block', border: 'solid', borderRadius:'5px', padding: 6, marginLeft: '5%', fontWeight:'bold'}}>{surveys.map(surveys =>((surveys.id === surveyID) &&<i>{surveys.data.status? "Close survey": "Open survey"}</i>))}</button>
+                {/* <h2 style={{display:'inline-block'}}>View survey {id}</h2> */}
+                {/* <button style={{display:'inline-block', border: 'solid', borderRadius:'5px', padding: 6, marginLeft: '5%', fontWeight:'bold'}}>{surveys.map(surveys =>((surveys.id === id) &&<i>{surveys.data.status? "Close survey": "Open survey"}</i>))}</button> */}
             </div>
             <div class="App">            
                 <div className = "question">
                     <br/>
                         <div className = "section">
                             <div className = "top">
-                                <h className="surveyname" style={{color:"black"}}>{surveys.map(surveys =>((surveys.id === surveyID) &&<p>{surveys.data.title}</p>))}</h>
+                                {/* <h className="surveyname" style={{color:"black"}}>{surveys.map(surveys =>((surveys.id === id) &&<p>{surveys.data.title}</p>))}</h> */}
                                 <div style={{display:'flex'}}>
                                     <div style={{marginTop: 20, fontSize: 20, marginBottom: -5, display:'inline-block'}}>Expired date</div>
                                     <div style={{marginTop: 20, fontSize: 20, marginBottom: -5, marginLeft: '70%', display:'inline-block'}}>Status</div>
@@ -70,10 +80,10 @@ export default function SurveyView() {
                                     </div>
                                 <div style={{display:'flex'}}>
                                     <div style={{marginTop:30, textAlign: 'left', fontSize: 15, display:'inline-block'}} >
-                                        {surveys.map(surveys =>((surveys.id === surveyID) &&<p>{surveys.data.close.toDate().toString()}</p>))}
+                                        {/* {surveys.map(surveys =>((surveys.id === id) &&<p>{surveys.data.close.toDate().toString()}</p>))} */}
                                     </div>
                                     <div style={{marginTop:30, fontSize: 15, display:'inline-block', marginLeft:'35%'}}>
-                                        {surveys.map(surveys =>((surveys.id === surveyID) &&<p>{surveys.data.status? "Open": "Close"}</p>))}
+                                        {/* {surveys.map(surveys =>((surveys.id === id) &&<p>{surveys.data.status? "Open": "Close"}</p>))} */}
                                     </div>
 
                                 </div>

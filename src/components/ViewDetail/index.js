@@ -19,7 +19,6 @@ export default function ViewDetail() {
     const [comments, setComment] = useState([]);
     const { id } = useParams();
     const commentCollection = collection(db, "reports", id, "comments")
-    const [imgUrls, setIMGUrls] = useState([{url: ""}]);
     const docRef = doc(db, "reports", id) 
     const commentsRef = useRef(null);
     
@@ -49,7 +48,7 @@ export default function ViewDetail() {
          fetchDocById()
      } 
       
-}, [id]);
+   }, [id]);
    
       console.log('user', user)
    useEffect(() => {
