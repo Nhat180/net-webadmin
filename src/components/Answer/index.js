@@ -40,6 +40,7 @@ export default function AnswerView(props) {
         }
     }, [answers])
 
+    console.log(props.surveyID)
       console.log(answers);
       console.log(count);
       console.log(title);
@@ -50,7 +51,7 @@ export default function AnswerView(props) {
         {props.type !== "SHORTANSWER" ? (
                 <Chart type="pie" style={{textAlign:"Right"}}
                                 width={500}
-                                height={200}
+                                height={200}    
                                 series = {count}
                                 options={{
                                     noData:{text: "Empty Data"},
