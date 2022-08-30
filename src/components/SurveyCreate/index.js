@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Accordion, Button, FormControl, Nav, Spinner } from "react-bootstrap";
+import { Accordion, Button, Nav, Spinner } from "react-bootstrap";
 import{ db } from "../../firebase";
 import { doc, getDoc, collection, connectFirestoreEmulator, Timestamp} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
@@ -21,6 +21,8 @@ import {BsTrash} from 'react-icons/bs';
 import FilterNoneIcon from '@mui/icons-material/FilterNone';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import { async } from '@firebase/util';
+import InputLabel from "@mui/material/InputLabel";  
+import FormControl from "@mui/material/FormControl";
 
 export default function SurveyCreate() {
     const [questions, setQuestions] = useState(
@@ -125,7 +127,7 @@ export default function SurveyCreate() {
             }
         }
 
-        let type = ["radio", "checkbox", "text", "date", "likert"];
+        let type = ["radio", "checkbox", "text", "datepick", "likert"];
         let fbType = ["SINGLECHOICE", "MULTIPLECHOICE", "SHORTANSWER", "DATEPICK", "LIKERTSCALE"];
         let user = auth.currentUser.email.slice(0, auth.currentUser.email.length - 10);
         let surveyID = Timestamp.fromMillis(Date.parse(surveyDeadline)).toString;
@@ -186,7 +188,8 @@ export default function SurveyCreate() {
 
             }
         }
-        return console.log("test");
+        alert("Survey " + surveyName + " is created successfully")
+        return navigate(`/survey`);
     }
 
     function questionUI(){
@@ -229,13 +232,18 @@ export default function SurveyCreate() {
                         <AccordionDetails className="add_question">
                             <div className="add_question_top">
                                 <input type="text" className="question" placeholder="Question" value={ques.questionText} onChange={(e)=>{changeQuestion(e.target.value, i)}}></input>
-                                <Select className="select" style={{fontSize:"13px"}} defaultValue={ques.questionType}>
-                                    <MenuItem id="radio" value = "Radio" onClick={()=>{addQuestionType(i, "radio")}}> Single choice</MenuItem>
-                                    <MenuItem id="checkbox" value="Checkbox" onClick={()=>{addQuestionType(i, "checkbox")}}> Multiple choice</MenuItem>
-                                    <MenuItem id="text" value="Text" onClick={()=>{addQuestionTypeNoOption(i, "text")}}> Text input</MenuItem>
-                                    <MenuItem id="date" value="Date" onClick={()=>{addQuestionTypeNoOption(i, "date")}}> Date pick</MenuItem>
-                                    <MenuItem id="likert" value="Likert" onClick={()=>{addQuestionTypeNoOption(i, "likert")}}> Rating</MenuItem>
-                                </Select>
+                                <FormControl>
+                                    
+                                    <InputLabel id="select-label" style={{marginTop:'30px', textAlign:'right'}}>{ques.questionType}</InputLabel>
+                                    <Select className="select" style={{fontSize:"13px"}} labelId="select-label">
+                                        <MenuItem id="radio" value = {null} onClick={()=>{addQuestionType(i, "radio")}}> Single choice</MenuItem>
+                                        <MenuItem id="checkbox" value={null} onClick={()=>{addQuestionType(i, "checkbox")}}> Multiple choice</MenuItem>
+                                        <MenuItem id="text" value={null} onClick={()=>{addQuestionTypeNoOption(i, "text")}}> Text input</MenuItem>
+                                        <MenuItem id="datepick" value={null} onClick={()=>{addQuestionTypeNoOption(i, "datepick")}}> Date pick</MenuItem>
+                                        <MenuItem id="likert" value={null} onClick={()=>{addQuestionTypeNoOption(i, "likert")}}> Rating</MenuItem>
+                                    </Select>
+
+                                </FormControl>
 
                             </div>
                             {                                
