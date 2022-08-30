@@ -104,8 +104,7 @@ export default function User() {
                     })}
                 </tbody>
             </table>
-        </div>
-        
+        </div> 
         </Sidebar>
         </> 
     );

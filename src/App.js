@@ -12,6 +12,8 @@ import Survey from './components/Survey/index';
 import ViewDetail from './components/ViewDetail/index';
 import CreateSurvey from './components/SurveyCreate';
 import SuggestionDetail from './components/SuggestionDetail/index';
+import SurveyDetail from './components/SurveyDetail/index';
+
 
 function App() {
 
@@ -20,6 +22,7 @@ function App() {
       {/* <Navbar information={information} /> */}
       <div style={{ minHeight: "69vh" }}>
         <Routes>
+            <Route path='/survey/:id' element={<SurveyDetail/>}/>
             <Route path='/suggest/:id' element={<SuggestionDetail/>}/>
             <Route path='/view/:id' element={<ViewDetail/>}/>
             {/* <Route path='/' element={<Menu />}/> */}
