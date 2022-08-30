@@ -10,9 +10,11 @@ import Report from './components/Report/index';
 import Suggestion from './components/Suggestion/index';
 import Survey from './components/Survey/index';
 import ViewDetail from './components/ViewDetail/index';
-import CreateSurvey from './components/SurveyCreate';
+import CreateSurvey from './components/SurveyCreate/index';
+import ViewSurvey from './components/SurveyView/index'
 import SuggestionDetail from './components/SuggestionDetail/index';
 import SurveyDetail from './components/SurveyDetail/index';
+
 
 
 function App() {
@@ -29,6 +31,7 @@ function App() {
             <Route path='/menu' element={<Menu />}/>
             <Route path='/user' element={<User />}/>
             <Route path='/surveyCreate' element={<CreateSurvey />}/>
+            <Route path='/surveyView' element={<ViewSurvey />}/>
             <Route path='/user' element={<User />}/>
             <Route path='/!' element={<Report />}/>
             <Route path='/report' element={<Report />}/>
@@ -37,6 +40,7 @@ function App() {
             <Route path='/!' element={<Survey />}/>
             <Route path='/survey' element={<Survey />}/>
             <Route path='/' element={<SignIn />}/>
+
 
         </Routes>
 

@@ -1,0 +1,12 @@
+.answerContainer{
+    flex: auto;
+    text-align: left;
+}
+
+.answer{
+    margin: 10px;
+    padding: 10px;
+    background-color: #F4F4F9;
+    border-radius: 10px;
+
+}
