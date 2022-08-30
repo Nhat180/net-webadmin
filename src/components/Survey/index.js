@@ -51,6 +51,12 @@ export default function Survey() {
         setSearch("");
       };
 
+    
+      const routeChange = () =>{ 
+        let path = `/surveyCreate`; 
+        navigate(path);
+    }
+
     const sortStatusProcess = async (e) => { onSnapshot(query(collection(db,'surveys'), orderBy('status', `${e.target.value}`)), snapshot => {
         setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})}
 
@@ -68,7 +74,8 @@ export default function Survey() {
         
         <div class="report">
             <SubNav content = {"Survey"} />
-            <h1>Survey Management</h1>
+            <h1>Survey Management</h1>            
+            <button onClick={()=>routeChange()} style={{marginLeft:'1000px', marginBottom:'10px', border:'solid', padding:'5px', borderRadius:'5px'}}> Create survey</button>
             {/* <div class="query">
                 <div class="search">
                     <form onSubmit={handleSubmit} style={{ display: "inline" }}>
