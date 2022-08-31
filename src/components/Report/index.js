@@ -108,8 +108,29 @@ export default function Report() {
 
     }
     
-    const searchTitle = async (e) => { onSnapshot(query(collection(db,'reports'), orderBy('title'), startAt(`${e.target.value}`)), snapshot => {
-        setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})}
+    const searchTitle = async (e) => {
+        if(e.target.value === null) {
+            onSnapshot(reportCollection, snapshot => {
+                setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
+            } )
+        } else {
+
+                setReport(report.filter(
+                    (report) => 
+                    report.data.title.toLowerCase().includes(e.target.value.toLowerCase())
+                ));
+            
+        }        
+    }
+
+    // useEffect(() => {
+    //     setReport(
+    //         report.filter(
+    //         (report) => 
+    //         report.data.title.toLowerCase().includes(search.toLowerCase())
+    //       )
+    //     );
+    //   }, [search, report]);
 
     // Get current 
     const indexOfLastItem = currentPage * itemPerPage;
@@ -163,7 +184,7 @@ export default function Report() {
                                 <form  style={{ display: "inline" }}>
                                     <input
                                         type="text"
-                                        // className="inputField"
+                                        className="inputField"
                                         placeholder="Search Title"
                                         onChange={searchTitle}
                                         // value={search}
