@@ -31,6 +31,9 @@ export const SignIn = () => {
         setError(e.message)
         
         console.log(e.message)
+        if(e.code ==='auth/user-not-found' || e.code ==='auth/wrong-password'){
+          alert("Incorrect username or password, please try again")
+        }
       }
     };
 
