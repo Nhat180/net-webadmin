@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { async } from "@firebase/util";
 import Chart from 'react-apexcharts';
 import "./answer.css";
+import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar } from "recharts";
 
 
 export default function AnswerView(props) {
@@ -48,7 +49,9 @@ export default function AnswerView(props) {
 
       return (
         <>
-        {props.type !== "SHORTANSWER" ? (
+        {props.type !== "SHORTANSWER"
+        //  && props.type !=="DATEPICK" 
+         ? (
                 <Chart type="pie" style={{textAlign:"Right"}}
                                 width={500}
                                 height={200}    
@@ -56,9 +59,21 @@ export default function AnswerView(props) {
                                 options={{
                                     noData:{text: "Empty Data"},
                                     labels:title
-                            }}></Chart>) : (<div class="answerContainer">
+                            }}></Chart>) : 
+                            // props.type !== "DATEPICK"?
+                            (<div class="answerContainer">
                                 {title.map(title=>(<div class="answer">"{title}"</div>))}
-                            </div>)}
+                            </div>)
+                            // : (<BarChart width={730} height={250} data={answers}>
+                            //     <CartesianGrid strokeDasharray="3 3" />
+                            //     <XAxis dataKey="name" />
+                            //     <YAxis />
+                            //     <Tooltip />
+                            //     <Legend />
+                            //     <Bar dataKey="pv" fill="#8884d8" />
+                            //     <Bar dataKey="uv" fill="#82ca9d" />
+                            //     </BarChart>)
+                        }
         </>
       )
 }

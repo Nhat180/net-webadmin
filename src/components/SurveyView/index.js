@@ -49,7 +49,7 @@ export default function SurveyView() {
             <div className="question_boxes">
                 <div className="add_question">
                     <div className="add_question_top">
-                        <p className="question" style={{textAlign: 'left'}}>{i+1}. {ques.data.title}</p>
+                        <p className="question" style={{textAlign: 'left'}}>{ques.data.title}</p>
                         <p className="select" style={{fontSize:"13px", textAlign: 'right'}}>{ques.data.type}</p>
 
                     </div>
