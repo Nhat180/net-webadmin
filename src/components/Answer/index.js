@@ -14,6 +14,7 @@ export default function AnswerView(props) {
     const [answers, setAnswers] = useState([]);
     const [title, setTitle] = useState([]);
     const [count, setCount] = useState([]);
+    const [data, setData] = useState([]);
     const answerCollection = collection(db, "surveys", props.surveyID, "questions", props.questionID, "answers")
    
 
@@ -37,6 +38,9 @@ export default function AnswerView(props) {
                 }))
 
             }
+            if(props.type === "DATEPICK"){
+                setData(answers.map(ans=>({select: ans.data.choiceCount, title: ans.data.title})))
+            }
 
         }
     }, [answers])
@@ -50,7 +54,7 @@ export default function AnswerView(props) {
       return (
         <>
         {props.type !== "SHORTANSWER"
-        //  && props.type !=="DATEPICK" 
+         && props.type !=="DATEPICK" 
          ? (
                 <Chart type="pie" style={{textAlign:"Right"}}
                                 width={500}
@@ -60,19 +64,17 @@ export default function AnswerView(props) {
                                     noData:{text: "Empty Data"},
                                     labels:title
                             }}></Chart>) : 
-                            // props.type !== "DATEPICK"?
+                            props.type !== "DATEPICK"?
                             (<div class="answerContainer">
                                 {title.map(title=>(<div class="answer">"{title}"</div>))}
                             </div>)
-                            // : (<BarChart width={730} height={250} data={answers}>
-                            //     <CartesianGrid strokeDasharray="3 3" />
-                            //     <XAxis dataKey="name" />
-                            //     <YAxis />
-                            //     <Tooltip />
-                            //     <Legend />
-                            //     <Bar dataKey="pv" fill="#8884d8" />
-                            //     <Bar dataKey="uv" fill="#82ca9d" />
-                            //     </BarChart>)
+                            : (<BarChart width={500} height={200} data={data}>
+                                <CartesianGrid strokeDasharray="1 1" />
+                                <XAxis dataKey="title" />
+                                <YAxis />
+                                <Tooltip />
+                                <Bar dataKey="select" fill="#8884d8"/>
+                                </BarChart>)
                         }
         </>
       )
