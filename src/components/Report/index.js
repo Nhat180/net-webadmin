@@ -107,6 +107,24 @@ export default function Report() {
         }
 
     }
+
+    const globalSearch = async (e) => {
+        if(e.target.value === null) {
+            onSnapshot(reportCollection, snapshot => {
+                setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
+            } )
+        } else {
+
+                setReport(report.filter(
+                    (report) => 
+                    report.data.creator.toLowerCase().includes(e.target.value.toLowerCase()) ||
+                    report.data.title.toLowerCase().includes(e.target.value.toLowerCase()) ||
+                    report.data.type.toLowerCase().includes(e.target.value.toLowerCase()) ||
+                    report.data.dateCreate.toLowerCase().includes(e.target.value.toLowerCase()) ||
+                    report.data.status.toLowerCase().includes(e.target.value.toLowerCase()) 
+                ));
+        }        
+    }
     
     const searchTitle = async (e) => {
         if(e.target.value === null) {
@@ -119,18 +137,22 @@ export default function Report() {
                     (report) => 
                     report.data.title.toLowerCase().includes(e.target.value.toLowerCase())
                 ));
-            
         }        
     }
 
-    // useEffect(() => {
-    //     setReport(
-    //         report.filter(
-    //         (report) => 
-    //         report.data.title.toLowerCase().includes(search.toLowerCase())
-    //       )
-    //     );
-    //   }, [search, report]);
+    const searchCreator = async (e) => {
+        if(e.target.value === null) {
+            onSnapshot(reportCollection, snapshot => {
+                setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
+            } )
+        } else {
+
+                setReport(report.filter(
+                    (report) => 
+                    report.data.creator.toLowerCase().includes(e.target.value.toLowerCase())
+                ));
+        }        
+    }
 
     // Get current 
     const indexOfLastItem = currentPage * itemPerPage;
@@ -147,27 +169,16 @@ export default function Report() {
         <div class="report">
             <SubNav content = {"Report"} />
             <h1>Report Management</h1>
-            {/* <div class="query">
-                <div class="search">
+                <div className="global-search">
                     <form  style={{ display: "inline" }}>
                         <input
                             type="text"
-                            className="inputField"
                             placeholder="  Search All ..."
-                            // onChange={searchTitle}
-                            value={search}
+                            onChange={globalSearch}
                         />
                     </form>
                 </div>
-                <div class="sort">
-                    <label>Sort By: </label>
-                    <select className="dropdown" name="colValue" onChange={sortStatusProcess}>
-                        <option value="asc">Please Select</option>
-                        <option value="asc" >Pending Status </option >
-                        <option value="desc">Process Status</option>
-                    </select>
-                </div> 
-            </div> */}
+                
         
         <div className="table-app">
             <table className="styled-table">
@@ -180,14 +191,14 @@ export default function Report() {
                             </select>
                         </th>
                         <th style={{textAlign: "center"}}>Title
-                            <div class="search">
+                            <div className="search">
                                 <form  style={{ display: "inline" }}>
                                     <input
                                         type="text"
                                         className="inputField"
                                         placeholder="Search Title"
                                         onChange={searchTitle}
-                                        // value={search}
+                                        
                                     />
                                 </form>
                             </div>
@@ -199,8 +210,7 @@ export default function Report() {
                                         type="text"
                                         className="inputField"
                                         placeholder="Search Creator"
-                                        // onChange={searchTitle}
-                                        value={search}
+                                        onChange={searchCreator}
                                     />
                                 </form>
                             </div>
@@ -237,8 +247,8 @@ export default function Report() {
                                 <td>{currentItem.data.status}</td>
                                 <td>
                                     <Link to={`/view/${currentItem.id}`}>
-                                        View
-                                    </Link>
+                                        <button class="button-3" role="button">View</button>
+                                   </Link>
                                 </td>
                             </tr>
                             
