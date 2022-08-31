@@ -5,7 +5,7 @@ import{ db } from "../../firebase";
 import { doc, getDocs, collection,  query, where, orderBy} from "firebase/firestore";
 import Sidebar from '../Sidebar.jsx'
 import { onSnapshot } from "firebase/firestore";
-import "../../Sidebar.css"
+// import "../../Sidebar.css"
 import SubNav from '../SubNav'
 import Pagination from '../Pagination'
 import { Link, useNavigate } from "react-router-dom";
@@ -15,23 +15,20 @@ import { async } from "@firebase/util";
 export default function Survey() {
 
     const surveyCollection = collection(db, 'surveys')
-    const [report, setReport] = useState([]);
+    const [survey, setSurvey] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemPerPage] = useState(7);
-    const [sort, setSort] = useState(false);
-    const sortedStatus = query(collection(db,'surveys'), where('status','==', 'process'))
-    const orderByStatus = query(collection(db,'surveys'), orderBy('status', 'desc'))
     const [search, setSearch] = useState("");
     const navigate = useNavigate();
     
 
     useEffect(() => {
-        const fetchReport = onSnapshot(surveyCollection, snapshot => {
-            setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
+        const fetchSurvey = onSnapshot(surveyCollection, snapshot => {
+            setSurvey(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
         } )
         return () => {
-            fetchReport()
+            fetchSurvey()
         }
     }, []);
 
@@ -44,29 +41,32 @@ export default function Survey() {
         
     //     setReport(newData);
     // };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        navigate.push(`/search?name=${search}`);
-        setSearch("");
-      };
-
-    
+ 
       const routeChange = () =>{ 
         let path = `/surveyCreate`; 
         navigate(path);
     }
 
-    const sortStatusProcess = async (e) => { onSnapshot(query(collection(db,'surveys'), orderBy('status', `${e.target.value}`)), snapshot => {
-        setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})}
-
     // Get current 
     const indexOfLastItem = currentPage * itemPerPage;
     const indexOfFirstItem = indexOfLastItem - itemPerPage;
-    const currentItem = report.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItem = survey.slice(indexOfFirstItem, indexOfLastItem);
 
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);
+
+    const sortSurveyStatus = async (e) => {
+        if (e.target.value == "all") {
+            onSnapshot(surveyCollection, snapshot => {
+                setSurvey(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        } else if (e.target.value == "closed") {
+            onSnapshot(query(collection(db,'surveys'), orderBy('status'), where('status','==', false)), snapshot => {
+                setSurvey(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        } else {
+            onSnapshot(query(collection(db,'surveys'), orderBy('status'), where('status','==', true)), snapshot => {
+                setSurvey(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        }
+    }
 
     return (
         <>
@@ -75,29 +75,20 @@ export default function Survey() {
         <div class="report">
             <SubNav content = {"Survey"} />
             <h1>Survey Management</h1>            
-            <button onClick={()=>routeChange()} style={{marginLeft:'1000px', marginBottom:'10px', border:'solid', padding:'5px', borderRadius:'5px'}}> Create survey</button>
-            {/* <div class="query">
-                <div class="search">
-                    <form onSubmit={handleSubmit} style={{ display: "inline" }}>
+            <div class="query">
+                <div className="global-search">
+                    <form  style={{ display: "inline" }}>
                         <input
                             type="text"
-                            className="inputField"
-                            placeholder="Search Title ..."
-                            onChange={(e) => setSearch(e.target.value)}
-                            value={search}
+                            placeholder="  Search All ..."
+                            // onChange={globalSearch}
                         />
                     </form>
                 </div>
-                <div class="sort">
-                    <label>Sort By: </label>
-                    <select className="dropdown" name="colValue" onChange={sortStatusProcess}>
-                        <option value="asc">Please Select</option>
-                        <option value="asc" >Pending Status </option >
-                        <option value="desc">Process Status</option>
-                        
-                    </select>
+                <div className="sort">
+                    <button onClick={()=>routeChange()} className="button-3"> Create survey</button>
                 </div> 
-            </div> */}
+            </div>
         
         <div className="table-app">
         <table className="styled-table">
@@ -107,7 +98,13 @@ export default function Survey() {
                         <th style={{textAlign: "center"}}>Title</th>
                         <th style={{textAlign: "center"}}>Creator</th>
                         <th style={{textAlign: "center"}}>Close time</th>
-                        <th style={{textAlign: "center"}}>Status</th>
+                        <th style={{textAlign: "center"}}>Status
+                            <select className="dropdown" name="colValue" onChange={sortSurveyStatus}>
+                                <option value="all">All</option>
+                                <option value="open">Open</option>
+                                <option value="closed" >Closed</option >
+                            </select>
+                        </th>
                         <th style={{textAlign: "center"}}>Action</th>
 
                     </tr>   
@@ -123,7 +120,7 @@ export default function Survey() {
                                 <td>{currentItem.data.status ? 'Open' :'Closed' }</td>
                                 <td>
                                     <Link to={`/surveyView/${currentItem.id}`}>
-                                        View
+                                        <button className="button-3" role="button">View Statistics</button>
                                     </Link>
                                 </td>   
                             </tr>
@@ -134,7 +131,7 @@ export default function Survey() {
             <div class ="pag">
                 <Pagination
                     itemPerPage={itemPerPage}
-                    totalItem={report.length}
+                    totalItem={survey.length}
                     paginate={paginate}
                 />
             </div>

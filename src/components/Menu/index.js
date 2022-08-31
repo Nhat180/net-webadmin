@@ -4,7 +4,7 @@ import{ db } from "../../firebase";
 import { doc, getDoc, collection} from "firebase/firestore";
 import Sidebar from '../Sidebar.jsx'
 import { onSnapshot } from "firebase/firestore";
-import "../../Sidebar.css"
+// import "../../Sidebar.css"
 import SubNav from '../SubNav'
 import 'bootstrap/dist/css/bootstrap.css';
 import { TbRefresh} from "react-icons/tb"

@@ -5,7 +5,7 @@ import{ db } from "../../firebase";
 import { doc, getDocs, collection,  query, where, orderBy, startAt} from "firebase/firestore";
 import Sidebar from '../Sidebar.jsx'
 import { onSnapshot } from "firebase/firestore";
-import "../../Sidebar.css"
+// import "../../Sidebar.css"
 import SubNav from '../SubNav'
 import Pagination from '../Pagination'
 import { Link, useNavigate } from "react-router-dom";

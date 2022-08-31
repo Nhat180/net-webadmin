@@ -7,7 +7,7 @@ import { SignIn } from "../SignIn/index";
 import Sidebar from '../Sidebar.jsx'
 import {setDoc, addDoc} from 'firebase/firestore'
 import {  Routes, Route } from "react-router-dom";
-import "../../Sidebar.css"
+// import "../../Sidebar.css"
 import "./surveyCreate.css"
 import { useNavigate } from "react-router-dom";
 import { AccordionSummary, AccordionDetails, IconButton } from "@mui/material";

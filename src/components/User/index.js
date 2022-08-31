@@ -5,7 +5,7 @@ import { setDoc,doc, getDoc, collection,  query, where, orderBy, startAt} from "
 import Sidebar from '../Sidebar.jsx'
 import { onSnapshot } from "firebase/firestore";
 import SubNav from '../SubNav'
-import "../../Sidebar.css"
+// import "../../Sidebar.css"
 
 export default function User() {
 
@@ -56,11 +56,11 @@ export default function User() {
     function btnDisplay(email, state){
         if(state == true){
             return(
-                <button onClick={()=>demote(email)}> Demote </button>
+                <button class="button-2" role="button" onClick={()=>demote(email)}> Demote </button>
             )
         } else{
             return(
-                <button onClickCapture={()=>promote(email)}> Promote</button>
+                <button class="button-3" role="button" onClickCapture={()=>promote(email)}> Promote</button>
             )
         }
     }

@@ -5,7 +5,7 @@ import{ db } from "../../firebase";
 import { doc, getDocs, collection,  query, where, orderBy, startAt} from "firebase/firestore";
 import Sidebar from '../Sidebar.jsx'
 import { onSnapshot } from "firebase/firestore";
-import "../../Sidebar.css"
+// import "../../Sidebar.css"
 import SubNav from '../SubNav'
 import Pagination from '../Pagination'
 import { Link, useNavigate } from "react-router-dom";
@@ -75,8 +75,8 @@ export default function Report() {
     }
 
     const sortStatusProcess = async (e) => {
-        if (e.target.value == "solved") {
-            onSnapshot(query(collection(db,'reports'), orderBy('status'), where('status','==', 'solved')), snapshot => {
+        if (e.target.value == "done") {
+            onSnapshot(query(collection(db,'reports'), orderBy('status'), where('status','==', 'done')), snapshot => {
                 setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
         } else if (e.target.value == "pending") {
             onSnapshot(query(collection(db,'reports'), orderBy('status'), where('status','==', 'pending')), snapshot => {
@@ -228,7 +228,7 @@ export default function Report() {
 
                         <th style={{textAlign: "center"}}>Status
                             <select className="dropdown" name="colValue" onChange={sortStatusProcess}>
-                                <option value="solved">Solved</option>
+                                <option value="done">Solved</option>
                                 <option value="pending" >Pending </option >
                                 <option value="process">Process</option>
                             </select>
@@ -247,7 +247,7 @@ export default function Report() {
                                 <td>{currentItem.data.status}</td>
                                 <td>
                                     <Link to={`/view/${currentItem.id}`}>
-                                        <button class="button-3" role="button">View</button>
+                                        <button className="button-3" role="button">View</button>
                                    </Link>
                                 </td>
                             </tr>

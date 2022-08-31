@@ -166,7 +166,7 @@ export default function ViewDetail() {
                         <option value={user.status}>{user.status}</option>
                         <option value="pending" >Pending  </option >
                         <option value="process">Process</option>
-                        <option value="solved">Solved</option>
+                        <option value="done">Solved</option>
                </select>
                </div>
             </div>
@@ -205,6 +205,7 @@ export default function ViewDetail() {
              <button 
                 type="button" 
                 className="btn btn-outline-secondary"
+                style={{color: 'black', border:'solid', borderRadius:'5px',padding:'5px' }}
                 onClick={addCmt}
                 >
                     Post comment
