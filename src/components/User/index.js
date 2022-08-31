@@ -65,6 +65,20 @@ export default function User() {
         }
     }
 
+
+    const searchUser = async (e) => {
+        if(e.target.value === null) {
+            onSnapshot(userCollection, snapshot => {
+                setUser(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
+            } )
+        } else {
+
+            setUser(user.filter(
+                    (user) => 
+                    user.data.username.toLowerCase().includes(e.target.value.toLowerCase())
+                ));
+        }        
+    }
     
     return (
         <>
@@ -77,7 +91,19 @@ export default function User() {
                 <thead>
                     <tr>
                         <th></th>
-                        <th style={{textAlign: "center"}}>Username</th>
+                        <th style={{textAlign: "center"}}>Username
+                        <div class="search">
+                                <form  style={{ display: "inline" }}>
+                                    <input
+                                        type="text"
+                                        className="inputField"
+                                        placeholder="Search User"
+                                        onChange={searchUser}
+                                        
+                                    />
+                                </form>
+                            </div>
+                        </th>
                         <th style={{textAlign: "center"}}>Role
                             <select className="dropdown" name="colValue" onChange={sortUserRole}>
                                 <option value="all">All</option>

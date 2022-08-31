@@ -13,3 +13,11 @@
 .imgSlide {
     display: flex;
 }
+
+.imgSlide img:first-of-type {
+    margin-left: 0px;
+}
+
+.imgSlide img {
+    margin-left: 20px;
+}
