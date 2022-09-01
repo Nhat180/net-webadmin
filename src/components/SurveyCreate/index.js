@@ -3,11 +3,9 @@ import { Accordion, Button, Nav, Spinner } from "react-bootstrap";
 import{ db } from "../../firebase";
 import { doc, getDoc, collection, connectFirestoreEmulator, Timestamp} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { SignIn } from "../SignIn/index";
-import Sidebar from '../Sidebar.jsx'
+import Sidebar from '../Sidebar/index'
 import {setDoc, addDoc} from 'firebase/firestore'
 import {  Routes, Route } from "react-router-dom";
-// import "../../Sidebar.css"
 import "./surveyCreate.css"
 import { useNavigate } from "react-router-dom";
 import { AccordionSummary, AccordionDetails, IconButton } from "@mui/material";

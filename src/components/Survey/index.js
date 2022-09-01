@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./survey.css";
 import{ db } from "../../firebase";
 import { doc, getDocs, collection,  query, where, orderBy} from "firebase/firestore";
-import Sidebar from '../Sidebar.jsx'
+import Sidebar from '../Sidebar/index'
 import { onSnapshot } from "firebase/firestore";
 // import "../../Sidebar.css"
 import SubNav from '../SubNav'

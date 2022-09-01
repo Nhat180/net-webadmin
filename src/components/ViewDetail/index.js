@@ -2,9 +2,8 @@ import React, { useState, useEffect, View, Image , useRef} from "react";
 import "./ViewDetail.css";
 import{ db } from "../../firebase";
 import { doc, getDoc, collection, addDoc, updateDoc,setDoc, connectFirestoreEmulator} from "firebase/firestore";
-import Sidebar from '../Sidebar.jsx'
+import Sidebar from '../Sidebar/index'
 import { onSnapshot } from "firebase/firestore";
-// import "../../Sidebar.css"
 import axios from 'axios';
 import Pagination from '../Pagination'
 import { useParams, Link } from "react-router-dom";

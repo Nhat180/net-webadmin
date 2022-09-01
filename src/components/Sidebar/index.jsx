@@ -8,10 +8,12 @@ import {FcSurvey} from "react-icons/fc"
 import { TbMessageReport, TbLogout} from "react-icons/tb"
 import { BiUserCircle} from "react-icons/bi"
 import { NavLink, useNavigate } from 'react-router-dom';
-import NetcompanyLogo from "../net.jpg";
-import { UserAuth } from '../context/AuthContext';
+import NetcompanyLogo from "../../net.jpg";
+import { UserAuth } from '../../context/AuthContext';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import './Sidebar.css'
+
 
 const Sidebar = ({children}) => {
 

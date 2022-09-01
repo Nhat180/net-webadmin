@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import{ db } from "../../firebase";
 import { doc, getDoc, collection} from "firebase/firestore";
-import Sidebar from '../Sidebar.jsx'
+import Sidebar from '../Sidebar/index'
 import Answer from '../Answer/index'
-import "../../Sidebar.css"
 import "./surveyView.css"
 import { useNavigate } from "react-router-dom";
 import { async } from '@firebase/util';

@@ -1,21 +1,18 @@
-*{
-    margin:0;
-    padding:0;
-    text-decoration: none;
-}
+
 .sidebar-container{
     display:flex;
+    
+ 
 }
-main{
-    width: 100%;
-    padding: 20px;
-    height: 100%;
-}
+
 .sidebar{
     background: linear-gradient(60deg, #0f2147 0%, #0f2147 100%)#212F3C;
     color: #fff;
     width: 200px;
     transition: all 0.5s;
+    margin-bottom: -101%;
+    padding-bottom: 101%; 
+    overflow: hidden;
 }
 .top_section{
     display: flex;

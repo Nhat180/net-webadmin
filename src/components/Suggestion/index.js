@@ -3,9 +3,8 @@ import React, { useState, useEffect } from "react";
 import "./suggestion.css";
 import{ db } from "../../firebase";
 import { doc, getDocs, collection,  query, where, orderBy, startAt} from "firebase/firestore";
-import Sidebar from '../Sidebar.jsx'
+import Sidebar from '../Sidebar/index'
 import { onSnapshot } from "firebase/firestore";
-// import "../../Sidebar.css"
 import SubNav from '../SubNav'
 import Pagination from '../Pagination'
 import { Link, useNavigate } from "react-router-dom";

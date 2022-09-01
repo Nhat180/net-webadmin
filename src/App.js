@@ -13,8 +13,7 @@ import ViewDetail from './components/ViewDetail/index';
 import CreateSurvey from './components/SurveyCreate/index';
 import ViewSurvey from './components/SurveyView/index'
 import SuggestionDetail from './components/SuggestionDetail/index';
-// import ViewSurvey from './components/SurveyDetail/index';
-
+import './app.css'
 
 
 function App() {

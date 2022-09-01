@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./user.css";
 import{ db } from "../../firebase";
 import { setDoc,doc, getDoc, collection,  query, where, orderBy, startAt} from "firebase/firestore";
-import Sidebar from '../Sidebar.jsx'
+import Sidebar from '../Sidebar/index'
 import { onSnapshot } from "firebase/firestore";
 import SubNav from '../SubNav'
-// import "../../Sidebar.css"
 
 export default function User() {
 
