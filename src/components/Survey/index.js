@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import "./survey.css";
 import{ db } from "../../firebase";
-import { doc, getDocs, collection,  query, where, orderBy} from "firebase/firestore";
+import { doc, getDocs, collection,  query, where, orderBy, setDoc, updateDoc} from "firebase/firestore";
 import Sidebar from '../Sidebar/index'
 import { onSnapshot } from "firebase/firestore";
 // import "../../Sidebar.css"
@@ -26,6 +26,12 @@ export default function Survey() {
     useEffect(() => {
         const fetchSurvey = onSnapshot(surveyCollection, snapshot => {
             setSurvey(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
+            survey.map(async(survey)=>{
+                console.log(survey.id)
+                if(survey.data.close.toDate() < new Date()){
+                    await updateDoc(doc(db, "surveys", survey.id), {status: false})
+                }
+            })
         } )
         return () => {
             fetchSurvey()

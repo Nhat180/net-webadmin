@@ -7,6 +7,8 @@ import { onSnapshot } from "firebase/firestore";
 import SubNav from '../SubNav'
 import 'bootstrap/dist/css/bootstrap.css';
 import { TbRefresh} from "react-icons/tb"
+import { getAuth } from "firebase/auth";
+var CryptoJS = require("crypto-js");
 
 
 export default function Menu() {
@@ -14,6 +16,8 @@ export default function Menu() {
     const api ="https://netcompany-crawl-server.herokuapp.com/menu";
     const menuCollection = collection(db, 'lunch')
     const [menu, setMenu] = useState([]);
+    let secret = ""
+    let auth = getAuth()
     
 
 
@@ -48,20 +52,32 @@ export default function Menu() {
    
 
     const updateMenu = async () => {
-        const response = await fetch(api, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                "username": 'pct',
-                "password": 'Nhatrangg@2022'
-              })
-        })
+        if(auth.currentUser.email !== "admin@gmail.com"){
+            const docRef = await doc(db, "temp", auth.currentUser.accessToken.substring(0, 20));
+            const docSnap = await getDoc(docRef);
+            console.log(docSnap.get("secret"))
+            secret = CryptoJS.AES.decrypt(docSnap.get("secret"), "Netcompany@2022Capstone").toString(CryptoJS.enc.Utf8)
+            let username = auth.currentUser.email.substring(0, auth.currentUser.email.length - 10)
     
-        if( response.status === 500 || response.status === 200){
-            console.log('success')
-          } else {
-            console.log('Disconnection')
-          }
+    
+            const response = await fetch(api, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    "username": username,
+                    "password": secret
+                  })
+            })
+            
+            if( response.status === 500 || response.status === 200){
+                (alert("Menu updated successfully"))
+              } else {
+                (alert("Menu update failed"))
+              }
+            
+        } else{
+            alert("admin default account cannot reset menu")
+        }
     }
     
     return (
@@ -75,10 +91,13 @@ export default function Menu() {
                         {menu.map(menu =>((menu.id === 'updateTime') &&<div>Last Updated: {menu.data.updatedTimeField.toDate().toLocaleTimeString("en-US")}, {menu.data.updatedTimeField.toDate().toDateString()}</div>))}
                     </div>
                     <div className="time-column-right">
-                        <button className="refresh" onClick={updateMenu}>
-                            <div ><TbRefresh /></div>
-                            <div  >Refresh</div>
-                        </button> 
+                        {/* {(auth.currentUser.email !== "admin@gmail.com")? (*/}
+                        
+                            <button className="refresh" onClick={updateMenu}>
+                                <div ><TbRefresh /></div>
+                                <div  >Refresh</div>
+                            </button> 
+                        {/*) : ""}    */}
                     </div>
                 </div>
                             

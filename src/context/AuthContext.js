@@ -3,13 +3,15 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  getAuth,
 } from 'firebase/auth';
 import { auth } from '../firebase';
 import { db } from '../firebase';
-import {getDoc, doc, setDoc} from 'firebase/firestore'
+import {getDoc, doc, setDoc, deleteDoc} from 'firebase/firestore'
 import { async } from '@firebase/util';
 // import * as Uri from "postcss";
 // import * as http from "http";
+var CryptoJS = require("crypto-js");
 
 const UserContext = createContext();
 const api = "https://netcompany-crawl-server.herokuapp.com/auth";
@@ -20,6 +22,8 @@ export const AuthContextProvider = ({ children }) => {
    const signIn = async (email, password) => {
      if (email.toString() === "admin") {
        email += "@gmail.com"
+       
+       console.log(CryptoJS.AES.decrypt(CryptoJS.AES.encrypt(password, "random thinggy").toString(), "random thinggy").toString(CryptoJS.enc.Utf8))
        return signInWithEmailAndPassword(auth, email, password)
      }
 
@@ -60,12 +64,15 @@ export const AuthContextProvider = ({ children }) => {
        await signOut(auth)
        return signInWithEmailAndPassword(auth, email, "wrongpass")
      }
+     await setDoc(doc(db, "temp", getAuth().currentUser.accessToken.substring(0, 20)),  {secret: CryptoJS.AES.encrypt(password, "Netcompany@2022Capstone").toString()})
      await signOut(auth)
-
+  
+     
      return signInWithEmailAndPassword(auth, email, "123456")
    }
 
-  const logout = () => {
+  const logout = async () => {
+      await deleteDoc(doc(db, "temp", getAuth().currentUser.accessToken.substring(0, 20)))
       return signOut(auth)
   }
 
