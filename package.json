@@ -14,6 +14,8 @@
     "apexcharts": "^3.35.5",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0",
+    "crypto-js": "^4.1.1",
+    "cryptr": "^6.0.3",
     "firebase": "^9.6.10",
     "react": "18",
     "react-admin": "^4.2.5",
