@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     FaTh,
     FaBars,
@@ -13,6 +13,7 @@ import { UserAuth } from '../../context/AuthContext';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import './Sidebar.css'
+import { getAuth } from 'firebase/auth';
 
 
 const Sidebar = ({children}) => {
@@ -24,6 +25,15 @@ const Sidebar = ({children}) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true)
+    const [username, setUsername] = useState("")
+    let auth = getAuth()
+
+    useEffect(()=>{
+        if(auth.currentUser!== null){
+            setUsername(auth.currentUser.email.substring(0, auth.currentUser.email.length - 10))
+        }
+        console.log(username)
+    })
 
     const menuItem=[
         {
@@ -75,6 +85,10 @@ const Sidebar = ({children}) => {
                    <div style={{marginLeft: isOpen ? "50px" : "0px"}} className="bars">
                        <FaBars onClick={toggle}/>
                    </div>
+               </div>
+               <div style={{textAlign: 'center', paddingBottom: '20px', fontSize:'17px'}}>
+                   <span style={{display: isOpen ? "inline" : "none"}}>Good day, </span>
+                   {username}
                </div>
                {
                    menuItem.map((item, index)=>(

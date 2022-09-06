@@ -13,21 +13,9 @@ import { Button } from "react-bootstrap";
 import { useParams, Link } from "react-router-dom";
 
 export default function SurveyView() {
-    // const surveyID = "";
-    // const docRef = doc(db, "surveys", id);
     const [surveys, setSurveys] = useState([]);
     const [questions, setQuestions] = useState([]);
     const { id } = useParams();
-    // useEffect(() => {
-    //     const fetchSurveyById = onSnapshot(doc(db, "surveys", id), (doc) =>{
-    //        setSurveys({...doc.data() })
-    //     })
-    //     console.log("Current data: ", doc.data());
-    //     return () => {
-    //         fetchSurveyById()
-    //    } 
-        
-    //  }, [id]);
     
     useEffect(() => {
         

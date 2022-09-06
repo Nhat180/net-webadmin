@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserAuth } from '../../context/AuthContext';
 import SubNav from "../SubNav";
@@ -7,6 +7,7 @@ import {required} from 'react-admin';
 import LoadingSpinnerButton  from '../Spinner';
 import Spinner from "../Spinner/spinner.gif"
 import Navbar from '../Navbar1';
+import { getAuth } from 'firebase/auth';
 
 export const SignIn = () => {
     const [email, setEmail] = useState('');
@@ -16,6 +17,15 @@ export const SignIn = () => {
     const { signIn } = UserAuth();
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+
+    useEffect(()=>{
+      let auth = getAuth()
+      let user = auth.currentUser
+      console.log(user)
+      if(getAuth().currentUser !== null){
+        navigate('/menu')
+      }
+    })
 
 
     const handleSubmit = async (e) => {

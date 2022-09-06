@@ -165,11 +165,6 @@
     background: #5F9BE0;
 }
 
-@-webkit-keyframes active { 
-    0% {transform: scale(1,1);}
-    90% {transform: scale(.9,.88);}
-    100% {transform: scale(.92,.9);}
-  }
   
   /* keyframes active { 
     0% {transform: scale(1,1);}
