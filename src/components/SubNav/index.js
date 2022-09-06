@@ -10,19 +10,16 @@ const SubNav = ({ content }) => {
     const [sugNoti, setSugNoti] = useState(0);
     const [notirep, setNotirep] = useState("");
     const [notisug, setNotisug] = useState("");
+    const [total, setTotal] = useState(0)
     let count = 0;
 
     useEffect(() => { 
-        if(content === "Report"){
             onSnapshot(collection(db, "reports"), snapshot => {
                 setReports(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
-            } ) 
-        }           
-        if(content === "Suggestion"){
+            } )     
             onSnapshot(collection(db, "suggestions"), snapshot => {
                 setSuggestions(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
             } ) 
-        }  
     }, []);
 
     useEffect(()=>{
@@ -47,6 +44,8 @@ const SubNav = ({ content }) => {
             })
             setNotirep("(" + repNoti + " new messages)")
         }
+        setTotal(sugNoti + repNoti)
+        console.log(total)
     })
 
     return (
