@@ -185,7 +185,7 @@ export default function Suggestion() {
                                         className="inputField"
                                         placeholder="Search Title"
                                         onChange={searchSuggestionTitle}
-                                        
+                                        style={{color:'black'}}
                                     />
                                 </form>
                             </div>
@@ -198,6 +198,7 @@ export default function Suggestion() {
                                         className="inputField"
                                         placeholder="Search Creator"
                                         onChange={searchSuggestionCreator}
+                                        style={{color:'black'}}
                                     />
                                 </form>
                             </div>

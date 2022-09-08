@@ -140,6 +140,7 @@ export default function Survey() {
                                         className="inputField"
                                         placeholder="Search Survey"
                                         onChange={searchTitleSurvey}
+                                        style={{color:'black'}}
                                     />
                                 </form>
                             </div>
@@ -152,6 +153,7 @@ export default function Survey() {
                                         className="inputField"
                                         placeholder="Search Creator"
                                         onChange={searchCreatorSurvey}
+                                        style={{color:'black'}}
                                     />
                                 </form>
                             </div>

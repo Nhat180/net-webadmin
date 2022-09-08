@@ -5,17 +5,29 @@ import { setDoc,doc, getDoc, collection,  query, where, orderBy, startAt} from "
 import Sidebar from '../Sidebar/index'
 import { onSnapshot } from "firebase/firestore";
 import SubNav from '../SubNav'
+import Pagination from '../Pagination'
+import { Link, useNavigate } from "react-router-dom";
+
 
 export default function User() {
 
     const userCollection = collection(db, 'users');
     const [user, setUser] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemPerPage] = useState(10);
+    const navigate = useNavigate();
 
+    // Get current 
+    const indexOfLastItem = currentPage * itemPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemPerPage;
+    const currentItem = user.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Change page
+    const paginate = pageNumber => setCurrentPage(pageNumber);
 
     useEffect(() => {
         const fetchUser = onSnapshot(query(collection(db,'users'), orderBy('isAdmin','desc')), snapshot => {
-            setUser(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
-        })
+            setUser(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
         return () => {
             fetchUser()
         }
@@ -23,7 +35,7 @@ export default function User() {
 
     const sortUserRole = async (e) => {
         if (e.target.value == "all") {
-            onSnapshot(userCollection, snapshot => {
+            onSnapshot(query(collection(db,'users'), orderBy('isAdmin','desc')), snapshot => {
                 setUser(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
         } else if (e.target.value == "user") {
             onSnapshot(query(collection(db,'users'), orderBy('isAdmin'), where('isAdmin','==', false)), snapshot => {
@@ -135,7 +147,7 @@ export default function User() {
                     </tr>   
                 </thead>
                 <tbody>
-                    {user.map((id, index) =>{
+                    {currentItem.map((id, index) =>{
                         return (
                             <tr key={id}>
                                 <th scope="row">{index +1}</th>
@@ -150,6 +162,14 @@ export default function User() {
                     })}
                 </tbody>
             </table>
+            <div class ="pag">
+                <Pagination
+                    itemPerPage={itemPerPage}
+                    totalItem={user.length}
+                    paginate={paginate}
+                    link = "/user/!#"
+                />
+            </div>
         </div> 
         </Sidebar>
         </> 

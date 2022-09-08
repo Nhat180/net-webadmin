@@ -31,7 +31,7 @@ function App() {
             <Route path='/user' element={<User />}/>
             <Route path='/surveyCreate' element={<CreateSurvey />}/>
             {/* <Route path='/surveyView' element={<ViewSurvey />}/> */}
-            <Route path='/user' element={<User />}/>
+            <Route path='/user/!' element={<User />}/>
             <Route path='/!' element={<Report />}/>
             <Route path='/report' element={<Report />}/>
             <Route path='suggest/!' element={<Suggestion />}/>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, CSSProperties } from "react";
 import "./menu.css";
 import{ db } from "../../firebase";
 import { doc, getDoc, collection} from "firebase/firestore";
@@ -8,38 +8,56 @@ import SubNav from '../SubNav'
 import 'bootstrap/dist/css/bootstrap.css';
 import { TbRefresh} from "react-icons/tb"
 import { getAuth } from "firebase/auth";
+import MoonLoader from "react-spinners/MoonLoader";
+import LoadingOverlay from 'react-loading-overlay';
+import styled, { css } from "styled-components";
+
 var CryptoJS = require("crypto-js");
 
+const DarkBackground = styled.div`
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 999; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+
+  ${props =>
+    props.disappear &&
+    css`
+      display: block; /* show */
+    `}
+`;
 
 export default function Menu() {
     
     const api ="https://netcompany-crawl-server.herokuapp.com/menu";
     const menuCollection = collection(db, 'lunch')
     const [menu, setMenu] = useState([]);
+    const [loaded, setLoaded] = useState(true);
+    const [color, setColor] = useState("#ffffff");
     let secret = ""
     let auth = getAuth()
+    const override: CSSProperties = {
+        display: "block",
+        margin: "0 auto",
+        borderColor: "red",
+      };
     
-
-
-    // getDoc(docMonday).then((snapshot) => {
-    //     setMenuMon(snapshot.data(), snapshot.id)
-    // })
-    // console.log(menuMon)
-
-    // getDoc(docTue).then((snapshot) => {
-    //     setMenuTue(snapshot.data(), snapshot.id)
-    // })
-
+    //   useEffect(() => {
+    //     // visible true -> false
+    //     if (!loaded) {
+    //       //setTimeout(() => setLoaded(true), 250); // 0.25초 뒤에 해제
+    //       //debugger;
+    //       setTimeout(() => setLoaded(true), 10000); // 10초 뒤에
+    //     }
     
-    // useEffect(() => {
-    //     const fetchMon = onSnapshot(docMonday, snapshot => {            
-    //         setMenuMon(snapshot.data(), snapshot.id) 
-    //     }) 
-    //      return () => {
-    //         fetchMon();
-    //      }
-    // }, []);
-
+    //     //setLoaded(loaded);
+    //   }, [loaded]);
 
     useEffect(() => {
         const fetchMenu = onSnapshot(menuCollection, snapshot => {
@@ -52,6 +70,7 @@ export default function Menu() {
    
 
     const updateMenu = async () => {
+        setLoaded(!loaded)
         if(auth.currentUser.email !== "admin@gmail.com"){
             const docRef = await doc(db, "temp", auth.currentUser.accessToken.substring(0, 20));
             const docSnap = await getDoc(docRef);
@@ -71,7 +90,9 @@ export default function Menu() {
             
             if( response.status === 500 || response.status === 200){
                 (alert("Menu updated successfully"))
+                setLoaded(loaded)
               } else {
+                setLoaded(loaded)
                 (alert("Menu update failed"))
               }
             
@@ -83,6 +104,7 @@ export default function Menu() {
     return (
         <>  
             <Sidebar>
+            
             <div className="main">
                 <SubNav content = {"Menu"} />
                 <h1>LUNCH MENU</h1>
@@ -94,7 +116,15 @@ export default function Menu() {
                             <button className="refresh" onClick={updateMenu} style={{backgroundColor: '#0f2147', color:"white", border:'solid', borderRadius:'8px',padding:'7px' }} >
                                 <div ><TbRefresh /></div>
                                 <div  >Refresh</div>
-                            </button> 
+                            </button>
+                            <DarkBackground disappear={!loaded}>
+                            <LoadingOverlay
+                                active={true}
+                                spinner={true}
+                                text='Update new menu...'
+                                >
+                            </LoadingOverlay>
+                            </DarkBackground> 
                     </div>
                 </div>
                             

@@ -2,7 +2,7 @@
 import React, { useState, useEffect} from "react";
 import "./report.css";
 import{ db } from "../../firebase";
-import { doc, getDocs, collection,  query, where, orderBy, startAt, updateDoc} from "firebase/firestore";
+import {  collection,  query, where, orderBy} from "firebase/firestore";
 import Sidebar from '../Sidebar/index'
 import { onSnapshot } from "firebase/firestore";
 import SubNav from '../SubNav'
@@ -207,7 +207,8 @@ export default function Report() {
                                         className="inputField"
                                         placeholder="Search Title"
                                         onChange={searchTitle}
-                                        
+                                        style={{color:'black'}}
+
                                     />
                                 </form>
                             </div>
@@ -220,6 +221,7 @@ export default function Report() {
                                         className="inputField"
                                         placeholder="Search Creator"
                                         onChange={searchCreator}
+                                        style={{color:'black'}}
                                     />
                                 </form>
                             </div>
