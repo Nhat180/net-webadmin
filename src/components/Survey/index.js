@@ -18,7 +18,7 @@ export default function Survey() {
     const [survey, setSurvey] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemPerPage] = useState(7);
+    const [itemPerPage] = useState(10);
     const [search, setSearch] = useState("");
     const navigate = useNavigate();
     
@@ -38,15 +38,18 @@ export default function Survey() {
         }
     }, []);
 
-    // const sortStatusProcess = async (e) => {
-    //     const data = await getDocs(query(reportCollection, orderBy('status', `${e.target.value}`)));
-    //     const newData = data.docs.map((doc) => ({
-    //         ...doc.data(),
-    //         id: doc.id,
-    //     }));
-        
-    //     setReport(newData);
-    // };
+    const searchTitleSurvey = async (e) => {
+
+        if(e.target.value === '') {
+            return onSnapshot(surveyCollection, snapshot => {
+                setSurvey(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
+            } )
+        } else {
+            return setSurvey(survey.filter(
+                    (survey) => 
+                    survey.data.title.toLowerCase().includes(e.target.value.toLowerCase())))
+        }        
+    }
  
       const routeChange = () =>{ 
         let path = `/surveyCreate`; 
@@ -74,6 +77,18 @@ export default function Survey() {
         }
     }
 
+    const searchCreatorSurvey = async (e) => {
+        if(e.target.value === '') {
+            onSnapshot(surveyCollection, snapshot => {
+                setSurvey(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
+            } )
+        } else {
+            setSurvey(survey.filter(
+                    (survey) => 
+                    survey.data.createdBy.toLowerCase().includes(e.target.value.toLowerCase())))
+        }       
+    }
+
     const globalSearch = async (e) => {
         if(e.target.value === '') {
             onSnapshot(surveyCollection, snapshot => {
@@ -94,11 +109,14 @@ export default function Survey() {
         <Sidebar>
         
         <div class="report">
-            <SubNav content = {"Survey"} />
-            <h1>Survey Management</h1>            
-            <div class="query">
+            <SubNav content = {"Survey Management"} />
+            {/* <h1>Survey Management</h1>             */}
+            
+        
+        <div className="table-app">
+        <div class="query">
                 <div className="global-search">
-                    <form  style={{ display: "inline" }}>
+                    <form  style={{ display: "inline", border:'solid', borderRadius:'8px',padding:'7px' }}>
                         <input
                             type="text"
                             placeholder="  Search All ..."
@@ -107,17 +125,37 @@ export default function Survey() {
                     </form>
                 </div>
                 <div className="sort">
-                    <button onClick={()=>routeChange()} className="button-3"> Create survey</button>
+                    <button onClick={()=>routeChange()} className="button-create"> Create survey</button>
                 </div> 
             </div>
-        
-        <div className="table-app">
         <table className="styled-table">
                 <thead>
                     <tr>
                         <th style={{textAlign: "center"}}>Date Created</th>
-                        <th style={{textAlign: "center"}}>Title</th>
-                        <th style={{textAlign: "center"}}>Creator</th>
+                        <th style={{textAlign: "center"}}>Title
+                            <div className="search">
+                                <form  style={{ display: "inline" }}>
+                                    <input
+                                        type="text"
+                                        className="inputField"
+                                        placeholder="Search Survey"
+                                        onChange={searchTitleSurvey}
+                                    />
+                                </form>
+                            </div>
+                        </th>
+                        <th style={{textAlign: "center"}}>Creator
+                            <div className="search">
+                                <form  style={{ display: "inline" }}>
+                                    <input
+                                        type="text"
+                                        className="inputField"
+                                        placeholder="Search Creator"
+                                        onChange={searchCreatorSurvey}
+                                    />
+                                </form>
+                            </div>
+                        </th>
                         <th style={{textAlign: "center"}}>Close time</th>
                         <th style={{textAlign: "center"}}>Status
                             <select className="dropdown" name="colValue" onChange={sortSurveyStatus}>
@@ -154,6 +192,7 @@ export default function Survey() {
                     itemPerPage={itemPerPage}
                     totalItem={survey.length}
                     paginate={paginate}
+                    link="/survey/!#"
                 />
             </div>
         </div>

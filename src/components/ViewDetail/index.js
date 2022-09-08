@@ -142,7 +142,7 @@ export default function ViewDetail() {
                         <option value={user.status}>{user.status}</option>
                         <option value="pending" >Pending  </option >
                         <option value="process">Process</option>
-                        <option value="done">Solved</option>
+                        <option value="solved">Solved</option>
                </select>
                </div>
             </div>

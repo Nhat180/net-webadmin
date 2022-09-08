@@ -72,8 +72,11 @@ export default function Report() {
         } else if (e.target.value == "pending") {
             onSnapshot(query(collection(db,'reports'), orderBy('status'), where('status','==', 'pending')), snapshot => {
                 setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
-        } else {
-            onSnapshot(query(collection(db,'reports'), orderBy('status'), where('status','==', 'approved')), snapshot => {
+        } else if (e.target.value == "all") {
+            onSnapshot(query(collection(db,'reports'), orderBy('noti','desc')), snapshot => {
+                setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        } else if (e.target.value == "solved") {
+            onSnapshot(query(collection(db,'reports'), orderBy('status'), where('status','==', 'solved')), snapshot => {
                 setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
         }
     }
@@ -86,11 +89,14 @@ export default function Report() {
         } else if (e.target.value == "other") {
             onSnapshot(query(collection(db,'reports'), orderBy('type'), where('type','==', 'Other')), snapshot => {
                 setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
-        } else if (e.target.value == "device") {
-            onSnapshot(query(collection(db,'reports'), orderBy('type'), where('type','==', 'Device')), snapshot => {
+        } else if (e.target.value == "security") {
+            onSnapshot(query(collection(db,'reports'), orderBy('type'), where('type','==', 'SECURITY')), snapshot => {
                 setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
         } else if (e.target.value == "food") {
-            onSnapshot(query(collection(db,'reports'), orderBy('type'), where('type','==', 'Food')), snapshot => {
+            onSnapshot(query(collection(db,'reports'), orderBy('type'), where('type','==', 'FOOD')), snapshot => {
+                setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        } else if (e.target.value == "all") {
+            onSnapshot(query(collection(db,'reports'), orderBy('noti','desc')), snapshot => {
                 setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
         } else {
             onSnapshot(query(collection(db,'reports'), orderBy('type'), where('type','==', 'SNACK')), snapshot => {
@@ -159,7 +165,7 @@ export default function Report() {
             )
         } else{
             return(
-                <button class="button-3" role="button" > View</button>
+                <button class="button-3" role="button" > View Report</button>
             )
         }
     }
@@ -169,10 +175,14 @@ export default function Report() {
         <Sidebar>
         
         <div class="report">
-            <SubNav content = {"Report"} />
-            <h1>Report Management</h1>
-                <div className="global-search">
-                    <form  style={{ display: "inline" }}>
+            <SubNav content = {"Report Management"} />
+            {/* <h1>cc</h1> */}
+                
+                
+        
+        <div className="table-app">
+            <div className="global-search">
+                    <form  style={{ display: "inline", border:'solid', borderRadius:'8px',padding:'7px' }}>
                         <input
                             type="text"
                             placeholder="  Search All ..."
@@ -180,9 +190,6 @@ export default function Report() {
                         />
                     </form>
                 </div>
-                
-        
-        <div className="table-app">
             <table className="styled-table">
                 <thead>
                     <tr>
@@ -220,17 +227,19 @@ export default function Report() {
 
                         <th style={{textAlign: "center"}}>Type
                             <select className="dropdown" name="colValue" onChange={sortType}>
+                                <option value="all">All</option>
                                 <option value="sanitary">Sanitary</option>
                                 <option value="snack" >Snack</option >
-                                <option value="device">Device</option>
-                                <option value="other">Other</option>
                                 <option value="food">Food</option>
+                                <option value="security">Security</option>
+                                <option value="other">Other</option>    
                             </select>
                         </th>
 
                         <th style={{textAlign: "center"}}>Status
                             <select className="dropdown" name="colValue" onChange={sortStatusProcess}>
-                                <option value="approved">Approved</option>
+                                <option value="all">All</option>
+                                <option value="solved">Solved</option>
                                 <option value="pending" >Pending </option >
                                 <option value="process">Process</option>
                             </select>
@@ -263,6 +272,7 @@ export default function Report() {
                     itemPerPage={itemPerPage}
                     totalItem={report.length}
                     paginate={paginate}
+                    link = "!#"
                 />
             </div>
         </div>

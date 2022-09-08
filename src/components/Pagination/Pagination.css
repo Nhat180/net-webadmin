@@ -1,13 +1,12 @@
 
 .pagination {
-    display: inline-block;
-    align-items: center;
-    margin-left: 72.9%;
-  }
+  display: inline-block;
+  align-items: center;
+  float: right;
+  margin-right: 22%;
+}
 
- nav ul {
-    /* margin-left: 36.7%; */
- }
+ 
 .pagination li {
     color: black;
     float: left;

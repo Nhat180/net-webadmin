@@ -34,13 +34,11 @@ function App() {
             <Route path='/user' element={<User />}/>
             <Route path='/!' element={<Report />}/>
             <Route path='/report' element={<Report />}/>
-            <Route path='/!' element={<Suggestion />}/>
+            <Route path='suggest/!' element={<Suggestion />}/>
             <Route path='/suggestion' element={<Suggestion />}/>
-            <Route path='/!' element={<Survey />}/>
+            <Route path='survey/!' element={<Survey />}/>
             <Route path='/survey' element={<Survey />}/>
             <Route path='/' element={<SignIn />}/>
-
-
         </Routes>
 
       </div>

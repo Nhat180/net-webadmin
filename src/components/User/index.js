@@ -13,7 +13,7 @@ export default function User() {
 
 
     useEffect(() => {
-        const fetchUser = onSnapshot(userCollection, snapshot => {
+        const fetchUser = onSnapshot(query(collection(db,'users'), orderBy('isAdmin','desc')), snapshot => {
             setUser(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
         })
         return () => {
@@ -59,7 +59,7 @@ export default function User() {
             )
         } else{
             return(
-                <button class="button-3" role="button" onClickCapture={()=>promote(email)}> Promote</button>
+                <button class="button-promote" role="button" onClickCapture={()=>promote(email)}> Promote</button>
             )
         }
     }
@@ -76,18 +76,41 @@ export default function User() {
                     user.data.username.toLowerCase().includes(e.target.value.toLowerCase())))
         }        
     }
+
+    const globalUserSearch = async (e) => {
+        if(e.target.value === '') {
+            return onSnapshot(userCollection, snapshot => {
+                setUser(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
+            } )
+        } else {
+            return setUser(user.filter(
+                    (user) => 
+                    user.data.username.toLowerCase().includes(e.target.value.toLowerCase()))) ||
+                    user.data.isAdmin.toLowerCase().includes(e.target.value.toLowerCase())
+        }        
+    }
     
     return (
         <>
         <Sidebar>
         
-        <SubNav content = {"User"} />
-        <h1>User Management</h1>  
+        <SubNav content = {"User Management"} />
+        {/* <h1>User Management</h1>   */}
         <div className="table-app">
+            <div className="global-search">
+                    <form  style={{ display: "inline", border:'solid', borderRadius:'8px',padding:'7px' }}>
+                        <input
+                            type="text"
+                            className=""
+                            placeholder="  Search All ..."
+                            onChange={globalUserSearch}
+                        />
+                    </form>
+                </div>
             <table className="styled-table">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th style={{textAlign: "center"}}>ID</th>
                         <th style={{textAlign: "center"}}>Username
                         <div class="search">
                                 <form  style={{ display: "inline" }}>

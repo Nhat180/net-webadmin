@@ -1,11 +1,4 @@
-/* .styled-table {
-    border-collapse: collapse;
-    margin:auto;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    max-width: 800px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.15);
-} */
+
 
 .table-app .styled-table {
     border-collapse: collapse;
@@ -17,7 +10,7 @@
 
 
  .table-app table thead tr th{
-    background-color: #009879;
+    background-color: #0f2147;
     color: white;
     text-align: left;
     
@@ -65,17 +58,8 @@
     display: flex;
     margin-bottom: 0.5%;
 }
-.inputField {
-    width: 100px;
-    background-color: #009879;
-}
-.search {
-    margin-left: 10%;
-}
 
-.sort {
-    margin-left: 30.5%;
-}
+
 
 .dropdown {
     width: 20px;

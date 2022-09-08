@@ -91,13 +91,10 @@ export default function Menu() {
                         {menu.map(menu =>((menu.id === 'updateTime') &&<div>Last Updated: {menu.data.updatedTimeField.toDate().toLocaleTimeString("en-US")}, {menu.data.updatedTimeField.toDate().toDateString()}</div>))}
                     </div>
                     <div className="time-column-right">
-                        {/* {(auth.currentUser.email !== "admin@gmail.com")? (*/}
-                        
                             <button className="refresh" onClick={updateMenu} style={{backgroundColor: '#0f2147', color:"white", border:'solid', borderRadius:'8px',padding:'7px' }} >
                                 <div ><TbRefresh /></div>
                                 <div  >Refresh</div>
                             </button> 
-                        {/*) : ""}    */}
                     </div>
                 </div>
                             

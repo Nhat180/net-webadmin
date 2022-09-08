@@ -16,48 +16,27 @@ export default function Suggestion() {
     const suggestionCollection = collection(db, 'suggestions')
     const [suggestions, setSuggestion] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemPerPage] = useState(7);
+    const [currentPageSuggest, setCurrentPageSuggest] = useState(1);
+    const [itemPerPageSuggest] = useState(10);
 
-    // the search result
-    //  const [results, setResults] = useState(currentItem);    
+    // Get current 
+    const indexOfLastItemSuggest = currentPageSuggest * itemPerPageSuggest;
+    const indexOfFirstItemSuggest = indexOfLastItemSuggest - itemPerPageSuggest;
+    const currentItemSuggest = suggestions.slice(indexOfFirstItemSuggest, indexOfLastItemSuggest);
+
+    // Change page
+    const paginateSuggest = pageNumber => setCurrentPageSuggest(pageNumber);
     
 
     useEffect(() => {
         const fetchSuggestion = onSnapshot(query(collection(db,'suggestions'), orderBy('noti','desc')), snapshot => {
-            setSuggestion(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
-        } )
+            setSuggestion(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
         return () => {
             fetchSuggestion()
         }
     }, []);
 
-    // const sortStatusProcess = async (e) => {
-    //     const data = await getDocs(query(reportCollection, orderBy('status', `${e.target.value}`)));
-    //     const newData = data.docs.map((doc) => ({
-    //         ...doc.data(),
-    //         id: doc.id,
-    //     }));
-        
-    //     setReport(newData);
-    // };
-
-    // const filter = (e) => {
-    //     const keyword = e.target.value;
     
-    //     if (keyword !== '') {
-    //       const results = (currentItem).filter((currentItem) => {
-    //         return currentItem.data.title.toLowerCase().startsWith(keyword.toLowerCase());
-    //         // Use the toLowerCase() method to make it case-insensitive
-    //       });
-    //       setResults(results);
-    //     } else {
-    //         setResults(USERS);
-    //       // If the text field is empty, show all users
-    //     }
-    
-    //     setName(keyword);
-    //   };
     
     const sortSuggestionDate = async (e) => {
         if (e.target.value =='asc') {
@@ -70,11 +49,14 @@ export default function Suggestion() {
     }
 
     const sortStatusProcessSuggest = async (e) => {
-        if (e.target.value == "solved") {
-            onSnapshot(query(collection(db,'suggestions'), orderBy('status'), where('status','==', 'solved')), snapshot => {
+        if (e.target.value == "closed") {
+            onSnapshot(query(collection(db,'suggestions'), orderBy('status'), where('status','==', 'closed')), snapshot => {
                 setSuggestion(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
         } else if (e.target.value == "pending") {
             onSnapshot(query(collection(db,'suggestions'), orderBy('status'), where('status','==', 'pending')), snapshot => {
+                setSuggestion(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        } else if (e.target.value == "all") {
+            onSnapshot(query(collection(db,'suggestions'), orderBy('noti','desc')), snapshot => {
                 setSuggestion(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
         } else {
             onSnapshot(query(collection(db,'suggestions'), orderBy('status'), where('status','==', 'process')), snapshot => {
@@ -90,11 +72,14 @@ export default function Suggestion() {
         } else if (e.target.value == "other") {
             onSnapshot(query(collection(db,'suggestions'), orderBy('type'), where('type','==', 'Other')), snapshot => {
                 setSuggestion(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
-        } else if (e.target.value == "device") {
-            onSnapshot(query(collection(db,'suggestions'), orderBy('type'), where('type','==', 'Device')), snapshot => {
+        } else if (e.target.value == "event") {
+            onSnapshot(query(collection(db,'suggestions'), orderBy('type'), where('type','==', 'EVENT')), snapshot => {
                 setSuggestion(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
         } else if (e.target.value == "LUNCH") {
             onSnapshot(query(collection(db,'suggestions'), orderBy('type'), where('type','==', 'LUNCH')), snapshot => {
+                setSuggestion(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
+        } else if (e.target.value == "all") {
+            onSnapshot(query(collection(db,'suggestions'), orderBy('noti','desc')), snapshot => {
                 setSuggestion(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
         } else {
             onSnapshot(query(collection(db,'suggestions'), orderBy('type'), where('type','==', 'SNACK')), snapshot => {
@@ -156,28 +141,25 @@ export default function Suggestion() {
             )
         } else{
             return(
-                <button class="button-3" role="button" > View</button>
+                <button class="button-3" role="button" > View Suggestion</button>
             )
         }
     }
 
-    // Get current 
-    const indexOfLastItem = currentPage * itemPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemPerPage;
-    const currentItem = suggestions.slice(indexOfFirstItem, indexOfLastItem);
-
-    // Change page
-    const paginate = pageNumber => setCurrentPage(pageNumber);
+   
 
     return (
         <>
         <Sidebar>
         
         <div class="report">
-            <SubNav content = {"Suggestion"} />
-            <h1>Suggestion Management</h1>
+            <SubNav content = {"Suggestion Management"} />
+            {/* <h1>Suggestion Management</h1> */}
+            
+        
+        <div className="table-app">
             <div className="global-search">
-                    <form  style={{ display: "inline" }}>
+                    <form  style={{ display: "inline", border:'solid', borderRadius:'8px',padding:'7px' }}>
                         <input
                             type="text"
                             className=""
@@ -186,8 +168,6 @@ export default function Suggestion() {
                         />
                     </form>
                 </div>
-        
-        <div className="table-app">
             <table className="styled-table">
                 <thead>
                     <tr>
@@ -225,9 +205,10 @@ export default function Suggestion() {
 
                         <th style={{textAlign: "center"}}>Type
                             <select className="dropdown" name="colValue" onChange={sortTypeSuggest}>
+                                <option value="all">All</option>
                                 <option value="sanitary">Sanitary</option>
                                 <option value="snack" >Snack</option >
-                                <option value="device">Device</option>
+                                <option value="event">Event</option>
                                 <option value="LUNCH">Lunch</option>
                                 <option value="other">Other</option>
                                 
@@ -236,7 +217,8 @@ export default function Suggestion() {
 
                         <th style={{textAlign: "center"}}>Status
                             <select className="dropdown" name="colValue" onChange={sortStatusProcessSuggest}>
-                                <option value="solved">Solved</option>
+                                <option value="all">All</option>
+                                <option value="closed">Closed</option>
                                 <option value="pending" >Pending </option >
                                 <option value="process">Process</option>
                             </select>
@@ -245,17 +227,17 @@ export default function Suggestion() {
                     </tr>   
                 </thead>
                 <tbody>
-                    {currentItem.map((currentItem) =>{
+                    {currentItemSuggest.map((currentItemSuggest) =>{
                         return (
                             <tr >
-                                <td>{currentItem.data.dateCreate}</td>
-                                <td>{currentItem.data.title}</td>
-                                <td>{currentItem.data.creator}</td>
-                                <td>{currentItem.data.type}</td>
-                                <td>{currentItem.data.status}</td>
+                                <td>{currentItemSuggest.data.dateCreate}</td>
+                                <td>{currentItemSuggest.data.title}</td>
+                                <td>{currentItemSuggest.data.creator}</td>
+                                <td>{currentItemSuggest.data.type}</td>
+                                <td>{currentItemSuggest.data.status}</td>
                                 <td>
-                                    <Link to={`/suggest/${currentItem.id}`}>
-                                        {btnDisplayNoti(currentItem.data.noti)}
+                                    <Link to={`/suggest/${currentItemSuggest.id}`}>
+                                        {btnDisplayNoti(currentItemSuggest.data.noti)}
                                     </Link>
                                 </td>
                             </tr>
@@ -266,9 +248,10 @@ export default function Suggestion() {
             </table>
             <div class ="pag">
                 <Pagination
-                    itemPerPage={itemPerPage}
+                    itemPerPage={itemPerPageSuggest}
                     totalItem={suggestions.length}
-                    paginate={paginate}
+                    paginate={paginateSuggest}
+                    link="/suggest/!#"
                 />
             </div>
         </div>

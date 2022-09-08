@@ -21,21 +21,14 @@ export default function SuggestionDetail() {
     const docRef = doc(db, "suggestions", id) 
     const commentsRef = useRef(null);
     
-
-   //  useEffect(() => {
-   //       const fetchDocById = async () => {
-   //          const docSnap = await getDoc(docRef)
-   //          if (docSnap.exists()) {
-   //             setUser({
-   //                ...docSnap.data()
-   //          })
-               
-   //          } else {
-   //             setUser({});
-   //          }
-   //       }
-   //       fetchDocById()
-   // }, [id]);
+    useEffect(() => {
+      const updateNoti = async() => {
+         updateDoc(doc(db, "suggestions", id), {
+             noti: false
+         })
+     }
+     updateNoti()
+   })
 
    useEffect(() => {
       const fetchDocById = onSnapshot(docRef, (doc) =>{
@@ -84,35 +77,7 @@ export default function SuggestionDetail() {
                totalCom: user.totalCom + 1
             })
 
-   //          const docSnap = await getDoc(docRef)
-   //          if (docSnap.exists()) {
-   //             setUser({
-   //                ...docSnap.data()  
-   //          })
-   //          console.log("total cmt hien tai ne",user.totalCom)
 
-   //          if (user.totalCom == 0) {
-   //             new_cmt_id = '00'
-   //          } else if(user.totalCom > 0 && user.totalCom < 10) {
-   //             foo = user.totalCom
-   //             new_cmt_id="0"+foo
-   //          }
-   //          else {
-   //             foo = user.totalCom ;
-   //             new_cmt_id=foo.toString()
-   //          }
-
-   //          await setDoc(doc(db, "reports", id, "comments",new_cmt_id), {
-   //             creator: "admin",
-   //             imgUrl: "",
-   //             text: commentsRef.current.value,
-   //             type: "text"
-   //          })
-   //          await updateDoc(docRef, {
-   //             totalCom: user.totalCom + 1
-   //          })
-      
-   // }
    const fetchComment = onSnapshot(commentCollection, snapshot => {
       setComment(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
    } )
@@ -165,7 +130,7 @@ export default function SuggestionDetail() {
                         <option value={user.status}>{user.status}</option>
                         <option value="pending" >Pending  </option >
                         <option value="process">Process</option>
-                        <option value="approved">Approved</option>
+                        <option value="closed">Closed</option>
                </select>
                </div>
             </div>

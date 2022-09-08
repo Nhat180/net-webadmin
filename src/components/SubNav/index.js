@@ -6,7 +6,6 @@ import{ db } from "../../firebase";
 import './subnav.css'
 import BellIcon from 'react-bell-icon';
 import { red } from "@material-ui/core/colors";
-import {  Badge } from 'antd';
 
 const SubNav = ({ content }) => {
     const [reports, setReports] = useState([]);
@@ -57,9 +56,7 @@ const SubNav = ({ content }) => {
     function displayNotiBell(noti) {
         if(noti > 0) {
             return (
-                <Badge count={5}>
                 <BellIcon width='30' height='30' active={true} animate={true} color='red'/>
-                </Badge>
             )
         } else {
         }

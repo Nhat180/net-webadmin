@@ -1,26 +1,21 @@
-/* .styled-table {
-    border-collapse: collapse;
-    margin:auto;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    max-width: 800px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.15);
-} */
-
+.table-app {
+  margin-top: 30px;
+}
 .table-app .styled-table {
   border-collapse: collapse;
   width: 100%;
   box-shadow: 0 0 20px rgba(0,0,0,0.15);
   font-size: 0.9em;
   font-family: sans-serif;
+  /* font-weight: bold; */
 }
 
 
 .table-app table thead tr th{
-  background-color: #009879;
+  background-color: #0f2147;
   color: white;
   text-align: left;
-  
+  font-weight: bold;
 }
 
 
@@ -67,19 +62,22 @@ h1 {
 }
 .inputField {
   width: 100px;
-  background-color: #009879;
+  background-color: white;
+  text-align: center;
+  width: 150px;
+  padding: 1px;
+  border-radius: 10px;
 }
 .search {
-  margin-left: 10%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.sort {
-  margin-left: 30.5%;
-}
+
 
 .dropdown {
   width: 20px;
-  background-color: #009879;
+  background-color: #0f2147;
 }
 
 .global-search {
