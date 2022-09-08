@@ -62,16 +62,22 @@
 
 .time-column-left, .time-column-right {
   display: inline-block;
+  margin-bottom: 20px;
 }
 
 .time-column-left {
-  margin-left: 5%;
+  float: left;
+  margin-top: 10px;
   font-weight: 500;
+  margin-left: 70px;
 }
 
 .time-column-right {
-  margin-left: 60.5%;
+  float: right;
+  margin-right: 70px;
 }
+
+
 
 
 .button-3 {

@@ -275,7 +275,7 @@ export default function SurveyCreate() {
                                             (ques.questionType=="radio" || ques.questionType == "checkbox") ?
                                             <div>
                                                 <input type="text" className="text_input" style={{fontSize:"13px", width:"310px"}} placeholder="Add another option" disabled/>
-                                                <Button size="small" style={{textTransform: 'none', color:"#4285f4", fontSize:"13px", fontWeight:"600"}} onClick={()=>{addOption(i)}}>
+                                                <Button size="small" style={{textTransform: 'none', color:"white", fontSize:"13px", fontWeight:"600"}} onClick={()=>{addOption(i)}}>
                                                     Add option
                                                 </Button>
                                             </div>
