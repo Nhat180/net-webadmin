@@ -19,6 +19,7 @@
 .styled-table td {
     border: 1px solid #ddd;
     padding: 12px 15px;
+    height: 70px;
 }
 
 .styled-table tbody tr {
@@ -127,7 +128,7 @@
     box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
   } 
 
-  .button-2 {
+  .button-demote {
     appearance: none;
     background-color: #009999;
     border: 1px solid rgba(27, 31, 35, .15);
@@ -152,29 +153,29 @@
     white-space: nowrap;
   }
   
-  .button-2:focus:not(:focus-visible):not(.focus-visible) {
+  .button-demote:focus:not(:focus-visible):not(.focus-visible) {
     box-shadow: none;
     outline: none;
   }
   
-  .button-2:hover {
+  .button-demote:hover {
     background-color: #009879;
     color: white;
   }
   
-  .button-2:focus {
+  .button-demote:focus {
     box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
     outline: none;
   }
   
-  .button-2:disabled {
+  .button-demote:disabled {
     background-color: #94d3a2;
     border-color: rgba(27, 31, 35, .1);
     color: rgba(255, 255, 255, .8);
     cursor: default;
   }
   
-  .button-2:active {
+  .button-demote:active {
     background-color: #009879;
     box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
   } 

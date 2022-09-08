@@ -165,7 +165,7 @@ export default function SuggestionDetail() {
                         <option value={user.status}>{user.status}</option>
                         <option value="pending" >Pending  </option >
                         <option value="process">Process</option>
-                        <option value="solved">Solved</option>
+                        <option value="approved">Approved</option>
                </select>
                </div>
             </div>

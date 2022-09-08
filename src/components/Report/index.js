@@ -1,16 +1,15 @@
  
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import "./report.css";
 import{ db } from "../../firebase";
-import { doc, getDocs, collection,  query, where, orderBy, startAt} from "firebase/firestore";
+import { doc, getDocs, collection,  query, where, orderBy, startAt, updateDoc} from "firebase/firestore";
 import Sidebar from '../Sidebar/index'
 import { onSnapshot } from "firebase/firestore";
-// import "../../Sidebar.css"
 import SubNav from '../SubNav'
 import Pagination from '../Pagination'
 import { Link, useNavigate } from "react-router-dom";
 import { async } from "@firebase/util";
-
+import AwesomeDebouncePromise from 'awesome-debounce-promise';
 
 export default function Report() {
 
@@ -18,27 +17,34 @@ export default function Report() {
     const [report, setReport] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemPerPage] = useState(7);
-    const [sort, setSort] = useState(false);
-    const sortedStatus = query(collection(db,'reports'), where('status','==', 'process'))
-    const orderByStatus = query(collection(db,'reports'), orderBy('status', 'desc'))
-    const [search, setSearch] = useState("");
+    const [itemPerPage] = useState(10);
     const navigate = useNavigate();
-    // the search result
-    //  const [results, setResults] = useState(currentItem);    
+    
     
 
     useEffect(() => {
-        const fetchReport = onSnapshot(reportCollection, snapshot => {
-            setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
-        } )
+        const fetchReport = onSnapshot(query(collection(db,'reports'), orderBy('noti','desc')), snapshot => {
+            setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
         return () => {
             fetchReport()
         }
     }, []);
 
-    // const sortStatusProcess = async (e) => {
-    //     const data = await getDocs(query(reportCollection, orderBy('status', `${e.target.value}`)));
+//     useEffect(() => {
+//         const fetch = async (e) => {
+//             const data = await getDocs(query(reportCollection, orderBy('noti','desc')));
+//             const newData = data.forEach((doc) => ({
+//                 data:doc.data(),
+//           id: doc.id
+//             }));
+            
+//             setReport(newData);
+//     }
+//     return () => {fetch()}
+// },[]);
+
+    // const fetch = async (e) => {
+    //     const data = await getDocs(query(reportCollection, orderBy('noti','desc')));
     //     const newData = data.docs.map((doc) => ({
     //         ...doc.data(),
     //         id: doc.id,
@@ -47,23 +53,8 @@ export default function Report() {
     //     setReport(newData);
     // };
 
-    // const filter = (e) => {
-    //     const keyword = e.target.value;
-    
-    //     if (keyword !== '') {
-    //       const results = (currentItem).filter((currentItem) => {
-    //         return currentItem.data.title.toLowerCase().startsWith(keyword.toLowerCase());
-    //         // Use the toLowerCase() method to make it case-insensitive
-    //       });
-    //       setResults(results);
-    //     } else {
-    //         setResults(USERS);
-    //       // If the text field is empty, show all users
-    //     }
-    
-    //     setName(keyword);
-    //   };
-    
+
+
     const sortDate = async (e) => {
         if (e.target.value =='asc') {
             onSnapshot(query(collection(db,'reports'), orderBy('dateCreate','asc')), snapshot => {
@@ -75,14 +66,14 @@ export default function Report() {
     }
 
     const sortStatusProcess = async (e) => {
-        if (e.target.value == "done") {
-            onSnapshot(query(collection(db,'reports'), orderBy('status'), where('status','==', 'done')), snapshot => {
+        if (e.target.value == "process") {
+            onSnapshot(query(collection(db,'reports'), orderBy('status'), where('status','==', 'process')), snapshot => {
                 setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
         } else if (e.target.value == "pending") {
             onSnapshot(query(collection(db,'reports'), orderBy('status'), where('status','==', 'pending')), snapshot => {
                 setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
         } else {
-            onSnapshot(query(collection(db,'reports'), orderBy('status'), where('status','==', 'process')), snapshot => {
+            onSnapshot(query(collection(db,'reports'), orderBy('status'), where('status','==', 'approved')), snapshot => {
                 setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
         }
     }
@@ -109,7 +100,7 @@ export default function Report() {
     }
 
     const globalSearch = async (e) => {
-        if(e.target.value === null) {
+        if(e.target.value === '') {
             onSnapshot(reportCollection, snapshot => {
                 setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
             } )
@@ -127,32 +118,31 @@ export default function Report() {
     }
     
     const searchTitle = async (e) => {
-        if(e.target.value === null) {
-            onSnapshot(reportCollection, snapshot => {
+
+        if(e.target.value === '') {
+            return onSnapshot(reportCollection, snapshot => {
                 setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
             } )
         } else {
-
-                setReport(report.filter(
+            return setReport(report.filter(
                     (report) => 
-                    report.data.title.toLowerCase().includes(e.target.value.toLowerCase())
-                ));
+                    report.data.title.toLowerCase().includes(e.target.value.toLowerCase())))
         }        
     }
 
     const searchCreator = async (e) => {
-        if(e.target.value === null) {
+        if(e.target.value === '') {
             onSnapshot(reportCollection, snapshot => {
                 setReport(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
             } )
         } else {
-
-                setReport(report.filter(
+            setReport(report.filter(
                     (report) => 
-                    report.data.creator.toLowerCase().includes(e.target.value.toLowerCase())
-                ));
-        }        
+                    report.data.creator.toLowerCase().includes(e.target.value.toLowerCase())))
+        }       
     }
+
+    
 
     // Get current 
     const indexOfLastItem = currentPage * itemPerPage;
@@ -161,6 +151,18 @@ export default function Report() {
 
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);
+
+    function btnDisplayNoti(noti){
+        if(noti == true){
+            return(
+                <button class="button-1" role="button" > New!!! </button>
+            )
+        } else{
+            return(
+                <button class="button-3" role="button" > View</button>
+            )
+        }
+    }
 
     return (
         <>
@@ -228,7 +230,7 @@ export default function Report() {
 
                         <th style={{textAlign: "center"}}>Status
                             <select className="dropdown" name="colValue" onChange={sortStatusProcess}>
-                                <option value="done">Solved</option>
+                                <option value="approved">Approved</option>
                                 <option value="pending" >Pending </option >
                                 <option value="process">Process</option>
                             </select>
@@ -247,7 +249,7 @@ export default function Report() {
                                 <td>{currentItem.data.status}</td>
                                 <td>
                                     <Link to={`/view/${currentItem.id}`}>
-                                        <button className="button-3" role="button">View</button>
+                                        {btnDisplayNoti(currentItem.data.noti)}
                                    </Link>
                                 </td>
                             </tr>

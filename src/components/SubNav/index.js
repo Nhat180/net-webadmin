@@ -3,6 +3,11 @@ import { Link } from "react-router-dom";
 import { DashBoardContent, DashBoardWrapper } from "./SubNav.style";
 import { collection, getDoc, onSnapshot } from "firebase/firestore";
 import{ db } from "../../firebase";
+import './subnav.css'
+import BellIcon from 'react-bell-icon';
+import { red } from "@material-ui/core/colors";
+import {  Badge } from 'antd';
+
 const SubNav = ({ content }) => {
     const [reports, setReports] = useState([]);
     const [suggestions, setSuggestions] = useState([]);
@@ -12,6 +17,7 @@ const SubNav = ({ content }) => {
     const [notisug, setNotisug] = useState("");
     const [total, setTotal] = useState(0)
     let count = 0;
+    
 
     useEffect(() => { 
             onSnapshot(collection(db, "reports"), snapshot => {
@@ -48,16 +54,24 @@ const SubNav = ({ content }) => {
         console.log(total)
     })
 
+    function displayNotiBell(noti) {
+        if(noti > 0) {
+            return (
+                <Badge count={5}>
+                <BellIcon width='30' height='30' active={true} animate={true} color='red'/>
+                </Badge>
+            )
+        } else {
+        }
+    }
+
     return (
         <div className="a">
             <DashBoardWrapper>
                 <DashBoardContent>
                     <h3>{content}</h3>
-                    <div>
-                        <div>
-                            <Link to="/">Dashboard</Link>
-                        </div>
-                        <span>{content} {(content === "Report" && repNoti !== 0 )?notirep : ""} {(content === "Suggestion" && sugNoti !== 0 )?notisug : ""}</span>
+                    <div className="sub-noti">
+                        {displayNotiBell(total)}
                     </div>
                 </DashBoardContent>
             </DashBoardWrapper>

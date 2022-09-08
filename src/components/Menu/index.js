@@ -93,7 +93,7 @@ export default function Menu() {
                     <div className="time-column-right">
                         {/* {(auth.currentUser.email !== "admin@gmail.com")? (*/}
                         
-                            <button className="refresh" onClick={updateMenu}>
+                            <button className="refresh" onClick={updateMenu} style={{backgroundColor: '#0f2147', color:"white", border:'solid', borderRadius:'8px',padding:'7px' }} >
                                 <div ><TbRefresh /></div>
                                 <div  >Refresh</div>
                             </button> 
