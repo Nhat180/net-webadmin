@@ -1,8 +1,6 @@
 
 .sidebar-container{
     display:flex;
-    
- 
 }
 
 .sidebar{
@@ -10,8 +8,8 @@
     color: #fff;
     width: 200px;
     transition: all 0.5s;
-    margin-bottom: -101%;
-    padding-bottom: 101%; 
+    margin-bottom: -11%;
+    padding-bottom: 11%; 
     overflow: hidden;
 }
 .top_section{

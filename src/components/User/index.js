@@ -55,7 +55,7 @@ export default function User() {
     function btnDisplay(email, state){
         if(state == true){
             return(
-                <button class="button-2" role="button" onClick={()=>demote(email)}> Demote </button>
+                <button class="button-demote" role="button" onClick={()=>demote(email)}> Demote </button>
             )
         } else{
             return(
@@ -66,16 +66,14 @@ export default function User() {
 
 
     const searchUser = async (e) => {
-        if(e.target.value === null) {
-            onSnapshot(userCollection, snapshot => {
+        if(e.target.value === '') {
+            return onSnapshot(userCollection, snapshot => {
                 setUser(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
             } )
         } else {
-
-            setUser(user.filter(
+            return setUser(user.filter(
                     (user) => 
-                    user.data.username.toLowerCase().includes(e.target.value.toLowerCase())
-                ));
+                    user.data.username.toLowerCase().includes(e.target.value.toLowerCase())))
         }        
     }
     

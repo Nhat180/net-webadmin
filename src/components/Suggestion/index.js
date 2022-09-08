@@ -24,7 +24,7 @@ export default function Suggestion() {
     
 
     useEffect(() => {
-        const fetchSuggestion = onSnapshot(suggestionCollection, snapshot => {
+        const fetchSuggestion = onSnapshot(query(collection(db,'suggestions'), orderBy('noti','desc')), snapshot => {
             setSuggestion(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
         } )
         return () => {
@@ -93,8 +93,8 @@ export default function Suggestion() {
         } else if (e.target.value == "device") {
             onSnapshot(query(collection(db,'suggestions'), orderBy('type'), where('type','==', 'Device')), snapshot => {
                 setSuggestion(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
-        } else if (e.target.value == "food") {
-            onSnapshot(query(collection(db,'suggestions'), orderBy('type'), where('type','==', 'Food')), snapshot => {
+        } else if (e.target.value == "LUNCH") {
+            onSnapshot(query(collection(db,'suggestions'), orderBy('type'), where('type','==', 'LUNCH')), snapshot => {
                 setSuggestion(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))})
         } else {
             onSnapshot(query(collection(db,'suggestions'), orderBy('type'), where('type','==', 'SNACK')), snapshot => {
@@ -104,7 +104,7 @@ export default function Suggestion() {
     }
 
     const globalSuggestionSearch = async (e) => {
-        if(e.target.value === null) {
+        if(e.target.value === '') {
             onSnapshot(suggestionCollection, snapshot => {
                 setSuggestion(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
             } )
@@ -122,7 +122,7 @@ export default function Suggestion() {
     }
     
     const searchSuggestionTitle = async (e) => {
-        if(e.target.value === null) {
+        if(e.target.value === '') {
             onSnapshot(suggestionCollection, snapshot => {
                 setSuggestion(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
             } )
@@ -136,7 +136,7 @@ export default function Suggestion() {
     }
 
     const searchSuggestionCreator = async (e) => {
-        if(e.target.value === null) {
+        if(e.target.value === '') {
             onSnapshot(suggestionCollection, snapshot => {
                 setSuggestion(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
             } )
@@ -147,6 +147,18 @@ export default function Suggestion() {
                     suggestions.data.creator.toLowerCase().includes(e.target.value.toLowerCase())
                 ));
         }        
+    }
+
+    function btnDisplayNoti(noti){
+        if(noti == true){
+            return(
+                <button class="button-1" role="button" > New!!! </button>
+            )
+        } else{
+            return(
+                <button class="button-3" role="button" > View</button>
+            )
+        }
     }
 
     // Get current 
@@ -216,8 +228,9 @@ export default function Suggestion() {
                                 <option value="sanitary">Sanitary</option>
                                 <option value="snack" >Snack</option >
                                 <option value="device">Device</option>
+                                <option value="LUNCH">Lunch</option>
                                 <option value="other">Other</option>
-                                <option value="food">Food</option>
+                                
                             </select>
                         </th>
 
@@ -242,7 +255,7 @@ export default function Suggestion() {
                                 <td>{currentItem.data.status}</td>
                                 <td>
                                     <Link to={`/suggest/${currentItem.id}`}>
-                                        <button class="button-3" role="button">View</button>
+                                        {btnDisplayNoti(currentItem.data.noti)}
                                     </Link>
                                 </td>
                             </tr>

@@ -24,7 +24,7 @@ export default function Survey() {
     
 
     useEffect(() => {
-        const fetchSurvey = onSnapshot(surveyCollection, snapshot => {
+        const fetchSurvey = onSnapshot(query(collection(db, 'surveys'), orderBy('status','desc')), snapshot => {
             setSurvey(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
             survey.map(async(survey)=>{
                 console.log(survey.id)
@@ -74,6 +74,21 @@ export default function Survey() {
         }
     }
 
+    const globalSearch = async (e) => {
+        if(e.target.value === '') {
+            onSnapshot(surveyCollection, snapshot => {
+                setSurvey(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
+            } )
+        } else {
+
+                setSurvey(survey.filter(
+                    (survey) => 
+                    survey.data.createdBy.toLowerCase().includes(e.target.value.toLowerCase()) ||
+                    survey.data.title.toLowerCase().includes(e.target.value.toLowerCase())  
+                ));
+        }        
+    }
+
     return (
         <>
         <Sidebar>
@@ -87,7 +102,7 @@ export default function Survey() {
                         <input
                             type="text"
                             placeholder="  Search All ..."
-                            // onChange={globalSearch}
+                            onChange={globalSearch}
                         />
                     </form>
                 </div>
